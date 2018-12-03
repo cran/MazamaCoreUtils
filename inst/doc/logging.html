@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Jonathan Callahan" />
+
+<meta name="date" content="2018-12-02" />
+
+<title>Logging</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Logging</h1>
+<h4 class="author"><em>Jonathan Callahan</em></h4>
+<h4 class="date"><em>2018-12-02</em></h4>
+
+
+
+<div id="logging-in-java-and-python" class="section level1">
+<h1>Logging in Java and Python</h1>
+<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have ben thoroughly tested and shown to work properly with a variety of input.</p>
+<p>However, no software is perfect and no real-world system operates with 100% availability or 100% consistent input. Things occasionally go wrong – perhaps intermittently. In a situation with occasional failures it is vitally important to have good logging information for forensic analyis.</p>
+<p>Other languages used in operational settings support logging at different levels of information density. The code to write out logs at these different levels looks very similar in java and python:</p>
+<p><strong>java</strong></p>
+<pre><code>import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.impl.Jdk14Logger;</code></pre>
+<p>… ugly setup of log files …</p>
+<pre><code>log.error(&quot;ERROR level message&quot;);
+log.warn(&quot;WARN level message&quot;);
+log.info(&quot;INFO level message&quot;);
+log.debug(&quot;DEBUG level message&quot;);
+log.trace(&quot;TRACE level message&quot;);</code></pre>
+<p><strong>python</strong></p>
+<pre><code>import logging
+ 
+logging.basicConfig(filename=&quot;my_INFO.log&quot;,
+                    level=logging.INFO)
+
+logging.error(&quot;ERROR level message&quot;)
+logging.warning(&quot;WARNING level message&quot;)
+logging.info(&quot;INFO level message&quot;)
+logging.debug(&quot;DEBUG level message&quot;)
+logging.trace(&quot;TRACE level message&quot;)</code></pre>
+</div>
+<div id="logging-in-r" class="section level1">
+<h1>Logging in R</h1>
+<p>The <strong>MazamaCoreUtils</strong> pacakge provides functions so that R logging can look the very similar:</p>
+<pre><code>library(MazamaCoreUtils)
+ 
+logger.setup(infoLog=&quot;my_INFO.log&quot;)
+
+logger.error(&quot;ERROR level message&quot;)
+logger.warn(&quot;WARN level message&quot;)
+logger.info(&quot;INFO level message&quot;)
+logger.debug(&quot;DEBUG level message&quot;)
+logger.trace(&quot;TRACE level message&quot;)</code></pre>
+<p>This functionality is built on top of the excellent <a href="https://github.com/zatonovo/futile.logger">futile.logger</a> package.</p>
+<div id="log-levels" class="section level2">
+<h2>Log Levels</h2>
+<p>When used properly, logging at different levels lets you to create log files that help you quickly navigate to the specific part of your code base that generated an error.</p>
+<p>Different log levels also allow problems to be dealt with by staff with different skill levels. Core developers don’t need to be dragged in whenever anything goes wrong. If a real-time web site is non-responsive, non-technical staff can be assigned to look at logs to assess the situation.</p>
+<ul>
+<li>If the <code>ERROR</code> or <code>WARN</code> logs report that no data was obtained from an upstream source, the problem is not with the R code.</li>
+<li>If the <code>INFO</code> log reports that incoming data was properly obtained but that none of it passed QC thresholds, the problem is not with the R code.</li>
+<li>If, however, these logs show everything running smoothly until some ugly R error message, then it is time to call in the core developers.</li>
+</ul>
+<p>Here are our best practices for how to use the different log levels:</p>
+<div id="error" class="section level3">
+<h3>ERROR</h3>
+<p><code>ERROR</code> log statements should only be generated immediately before a <code>stop()</code> is issued. The <code>ERROR.log</code> file should only have entries when R code failed to complete.</p>
+</div>
+<div id="warn" class="section level3">
+<h3>WARN</h3>
+<p><code>WARN</code> log statements imply that something unexpected happend but that R code is able to complete, perhaps with unpredicatble results. An appropriate use would be after testing the response of an internet request. R code may be able to trap and handle a failed request but should comment on the failure in the logs.</p>
+</div>
+<div id="info" class="section level3">
+<h3>INFO</h3>
+<p><code>INFO</code> log statements are useful for a general overview of how your R code is proceeding, reflecting top level code structure and perhaps ending with a final:</p>
+<pre><code>  logger.info(&quot;Successfully completed ...&quot;)
+  logger.info(&quot;\n=============== THE END ===============\n&quot;)</code></pre>
+</div>
+<div id="debug" class="section level3">
+<h3>DEBUG</h3>
+<p><code>DEBUG</code> log statements are best used to map out the path taken through the code. We recommend including <code>DEBUG</code> level statements inside of top level loops and beginning each function with the following:</p>
+<pre><code>logger.debug(&quot;----- FUNCTION_NAME() -----&quot;)</code></pre>
+</div>
+<div id="trace" class="section level3">
+<h3>TRACE</h3>
+<p><code>TRACE</code> log statements are for the gory details of any part of your code where you expect or are experiencing errors. These should contain information about program state and are intended only for developers.</p>
+</div>
+</div>
+</div>
+<div id="a-logging-example" class="section level1">
+<h1>A Logging Example</h1>
+<p>The following minimal example demonstrates the use of logging statements and their output.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(MazamaCoreUtils)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># Set up logging </span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">tmpDir &lt;-<span class="st"> </span><span class="kw">tempdir</span>()</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">logger.setup</span>(</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">errorLog =</span> <span class="kw">file.path</span>(tmpDir,<span class="st">&quot;ERROR.log&quot;</span>),</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">  <span class="dt">infoLog =</span> <span class="kw">file.path</span>(tmpDir,<span class="st">&quot;INFO.log&quot;</span>),</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">  <span class="dt">traceLog =</span> <span class="kw">file.path</span>(tmpDir,<span class="st">&quot;TRACE.log&quot;</span>)</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">)</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co"># Begin main program</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="kw">logger.info</span>(<span class="st">&quot;Begin loggingExample ...&quot;</span>)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co"># Try something that might fail</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">outputSums &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="cf">for</span> ( column <span class="cf">in</span> <span class="kw">names</span>(iris) ) {</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">  </a>
+<a class="sourceLine" id="cb7-18" data-line-number="18">  <span class="kw">logger.trace</span>(<span class="st">&quot;Working on: %s&quot;</span>, column)</a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">  </a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">  result &lt;-<span class="st"> </span><span class="kw">try</span>({</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">    outputSums[[column]] &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="st">      </span><span class="kw">paste0</span>(<span class="st">&quot;Sum of &quot;</span>, column, <span class="st">&quot; = &quot;</span>, <span class="kw">sum</span>(iris[[column]]))</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">  }, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">  </a>
+<a class="sourceLine" id="cb7-25" data-line-number="25">  <span class="cf">if</span> ( <span class="st">&quot;try-error&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(result) ) {</a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">    <span class="kw">logger.warn</span>(<span class="st">&quot;Oops: %s&quot;</span>, <span class="kw">geterrmessage</span>())</a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">  }</a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">  </a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">}</a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co"># Successful completion</span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="kw">logger.error</span>(<span class="st">&quot;NO ERRORS&quot;</span>)</a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="kw">logger.info</span>(<span class="st">&quot;Successfully completed loggingExample&quot;</span>)</a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="kw">logger.info</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">=============== THE END ===============</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co"># Check the output</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="kw">str</span>(outputSums)</a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; List of 4</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;</span></a>
+<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;</span></a>
+<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;</span></a>
+<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;</span></a></code></pre></div>
+<p>Here is what is generated in the log files:</p>
+<div id="error.log" class="section level2">
+<h2>ERROR.log</h2>
+<pre><code>#&gt; ERROR [2018-12-02 16:15:38] NO ERRORS</code></pre>
+</div>
+<div id="info.log" class="section level2">
+<h2>INFO.log</h2>
+<pre><code>#&gt; INFO [2018-12-02 16:15:38] Begin loggingExample ...
+#&gt; WARN [2018-12-02 16:15:38] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : 
+#&gt;   'sum' not meaningful for factors
+#&gt; 
+#&gt; ERROR [2018-12-02 16:15:38] NO ERRORS
+#&gt; INFO [2018-12-02 16:15:38] Successfully completed loggingExample
+#&gt; INFO [2018-12-02 16:15:38] 
+#&gt; =============== THE END ===============</code></pre>
+</div>
+<div id="trace.log" class="section level2">
+<h2>TRACE.log</h2>
+<pre><code>#&gt; INFO [2018-12-02 16:15:38] Begin loggingExample ...
+#&gt; TRACE [2018-12-02 16:15:38] Working on: Sepal.Length
+#&gt; TRACE [2018-12-02 16:15:38] Working on: Sepal.Width
+#&gt; TRACE [2018-12-02 16:15:38] Working on: Petal.Length
+#&gt; TRACE [2018-12-02 16:15:38] Working on: Petal.Width
+#&gt; TRACE [2018-12-02 16:15:38] Working on: Species
+#&gt; WARN [2018-12-02 16:15:38] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : 
+#&gt;   'sum' not meaningful for factors
+#&gt; 
+#&gt; ERROR [2018-12-02 16:15:38] NO ERRORS
+#&gt; INFO [2018-12-02 16:15:38] Successfully completed loggingExample
+#&gt; INFO [2018-12-02 16:15:38] 
+#&gt; =============== THE END ===============</code></pre>
+</div>
+</div>
+<div id="extra-functionality" class="section level1">
+<h1>Extra Functionality</h1>
+<p>Two more utility functions need to be mentioned</p>
+<div id="logger.setlevel" class="section level3">
+<h3><code>logger.setLevel()</code></h3>
+<p>This function sets the log level used in the console. By default this level is set to <code>FATAL</code> which basically means “only when R crashes”. If you are debugging code interactively you may wish to see log messages as the are generated by entering the following command:</p>
+<pre><code>logger.setLevel(TRACE)</code></pre>
+</div>
+<div id="initializelogging" class="section level3">
+<h3><code>initializeLogging()</code></h3>
+<p>This function is a wrapper for our typical usage. It accepts a <code>logDir</code> parameter and looks for <code>TRACE</code>, <code>DEBUG</code> <code>INFO</code> and <code>ERROR</code> logs in that directory. If they are found, they are renamed as <code>paste0(logLevel,&quot;.log.&quot;,timestamp)</code>. After renaming, new log files are setup.</p>
+<p>This is particularly useful for operational code run inside docker containers which may be automatically rebooted.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
