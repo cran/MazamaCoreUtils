@@ -19,7 +19,7 @@
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
@@ -81,7 +81,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -269,6 +291,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -277,8 +302,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <h1 class="title toc-ignore">Logging</h1>
-<h4 class="author"><em>Jonathan Callahan</em></h4>
-<h4 class="date"><em>2018-12-02</em></h4>
+<h4 class="author">Jonathan Callahan</h4>
+<h4 class="date">2018-12-02</h4>
 
 
 
@@ -311,7 +336,7 @@ logging.trace(&quot;TRACE level message&quot;)</code></pre>
 </div>
 <div id="logging-in-r" class="section level1">
 <h1>Logging in R</h1>
-<p>The <strong>MazamaCoreUtils</strong> pacakge provides functions so that R logging can look the very similar:</p>
+<p>The <strong>MazamaCoreUtils</strong> package provides functions so that R logging can look very similar:</p>
 <pre><code>library(MazamaCoreUtils)
  
 logger.setup(infoLog=&quot;my_INFO.log&quot;)
@@ -389,49 +414,47 @@ logger.trace(&quot;TRACE level message&quot;)</code></pre>
 <a class="sourceLine" id="cb7-27" data-line-number="27">  }</a>
 <a class="sourceLine" id="cb7-28" data-line-number="28">  </a>
 <a class="sourceLine" id="cb7-29" data-line-number="29">}</a>
-<a class="sourceLine" id="cb7-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co"># Successful completion</span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="kw">logger.error</span>(<span class="st">&quot;NO ERRORS&quot;</span>)</a>
-<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="kw">logger.info</span>(<span class="st">&quot;Successfully completed loggingExample&quot;</span>)</a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="kw">logger.info</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">=============== THE END ===============</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co"># Check the output</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="kw">str</span>(outputSums)</a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; List of 4</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;</span></a>
-<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;</span></a>
-<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;</span></a>
-<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt;   'sum' not meaningful for factors</span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co"># Successful completion</span></a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="kw">logger.error</span>(<span class="st">&quot;NO ERRORS&quot;</span>)</a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="kw">logger.info</span>(<span class="st">&quot;Successfully completed loggingExample&quot;</span>)</a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="kw">logger.info</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">=============== THE END ===============</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co"># Check the output</span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="kw">str</span>(outputSums)</a>
+<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; List of 4</span></a>
+<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;</span></a>
+<a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;</span></a>
+<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;</span></a>
+<a class="sourceLine" id="cb7-44" data-line-number="44"><span class="co">#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;</span></a></code></pre></div>
 <p>Here is what is generated in the log files:</p>
 <div id="error.log" class="section level2">
 <h2>ERROR.log</h2>
-<pre><code>#&gt; ERROR [2018-12-02 16:15:38] NO ERRORS</code></pre>
+<pre><code>#&gt; ERROR [2019-07-16 13:59:25] NO ERRORS</code></pre>
 </div>
 <div id="info.log" class="section level2">
 <h2>INFO.log</h2>
-<pre><code>#&gt; INFO [2018-12-02 16:15:38] Begin loggingExample ...
-#&gt; WARN [2018-12-02 16:15:38] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : 
-#&gt;   'sum' not meaningful for factors
-#&gt; 
-#&gt; ERROR [2018-12-02 16:15:38] NO ERRORS
-#&gt; INFO [2018-12-02 16:15:38] Successfully completed loggingExample
-#&gt; INFO [2018-12-02 16:15:38] 
+<pre><code>#&gt; INFO [2019-07-16 13:59:24] Begin loggingExample ...
+#&gt; WARN [2019-07-16 13:59:25] Oops: object 'flog.logger' not found
+#&gt; ERROR [2019-07-16 13:59:25] NO ERRORS
+#&gt; INFO [2019-07-16 13:59:25] Successfully completed loggingExample
+#&gt; INFO [2019-07-16 13:59:25] 
 #&gt; =============== THE END ===============</code></pre>
 </div>
 <div id="trace.log" class="section level2">
 <h2>TRACE.log</h2>
-<pre><code>#&gt; INFO [2018-12-02 16:15:38] Begin loggingExample ...
-#&gt; TRACE [2018-12-02 16:15:38] Working on: Sepal.Length
-#&gt; TRACE [2018-12-02 16:15:38] Working on: Sepal.Width
-#&gt; TRACE [2018-12-02 16:15:38] Working on: Petal.Length
-#&gt; TRACE [2018-12-02 16:15:38] Working on: Petal.Width
-#&gt; TRACE [2018-12-02 16:15:38] Working on: Species
-#&gt; WARN [2018-12-02 16:15:38] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : 
-#&gt;   'sum' not meaningful for factors
-#&gt; 
-#&gt; ERROR [2018-12-02 16:15:38] NO ERRORS
-#&gt; INFO [2018-12-02 16:15:38] Successfully completed loggingExample
-#&gt; INFO [2018-12-02 16:15:38] 
+<pre><code>#&gt; INFO [2019-07-16 13:59:24] Begin loggingExample ...
+#&gt; TRACE [2019-07-16 13:59:24] Working on: Sepal.Length
+#&gt; TRACE [2019-07-16 13:59:25] Working on: Sepal.Width
+#&gt; TRACE [2019-07-16 13:59:25] Working on: Petal.Length
+#&gt; TRACE [2019-07-16 13:59:25] Working on: Petal.Width
+#&gt; TRACE [2019-07-16 13:59:25] Working on: Species
+#&gt; WARN [2019-07-16 13:59:25] Oops: object 'flog.logger' not found
+#&gt; ERROR [2019-07-16 13:59:25] NO ERRORS
+#&gt; INFO [2019-07-16 13:59:25] Successfully completed loggingExample
+#&gt; INFO [2019-07-16 13:59:25] 
 #&gt; =============== THE END ===============</code></pre>
 </div>
 </div>
