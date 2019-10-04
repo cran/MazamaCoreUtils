@@ -1,3 +1,34 @@
+# MazamaCoreUtils 0.3.9
+
+* Added `julian` argument to `parseDatetime()` to support Julian day formats.
+
+# MazamaCoreUtils 0.3.8
+
+Added a suite of functions to easily run `devtools::check()` with different
+arguments:
+* `check_fastest()`
+* `check_faster()`
+* `check_fast()`
+* `check()`
+* `check_slow()`
+* `check_slower()`
+* `check_slowest()`
+
+* Added more *lubridate* functions to `timezoneLintRules`.
+
+# MazamaCoreUtils 0.3.7
+
+* Added `logger.isInitialized()` for programmatic use.
+* `logger.setLevel()` now guarantees that `logger.setup()` has been called,
+fixing a bug that generated multiple output messages when `logger.setLevel()`
+was called before `logger.setup()`.
+* Added more *lubridate* functions to `timezoneLintRules`.
+
+# MazamaCoreUtils 0.3.6
+
+More consistency improvements to `dateRange()`. When specified, the `days` 
+parameter now takes precedence over `ceilingEnd` when no `enddate` is specified.
+
 # MazamaCoreUtils 0.3.5
 
 Fully self-consistent package using internal functions wherever possible.

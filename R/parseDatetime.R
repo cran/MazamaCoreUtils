@@ -8,11 +8,11 @@
 #'
 #' \describe{
 #'   \item{Y}{four digit year}
-#'   \item{m}{decimal number (1-12, 01-12) or english name month (October, oct.)}
-#'   \item{d}{decimal number day of the month (0-31 or 01-31)}
-#'   \item{H}{decimal number hours (0-24 or 00-24)}
-#'   \item{M}{decimal number minutes (0-59 or 00-59)}
-#'   \item{S}{decimal number seconds (0-61 or 00-61)}
+#'   \item{m}{month number (1-12, 01-12) or english name month (October, oct.)}
+#'   \item{d}{day number of the month (0-31 or 01-31)}
+#'   \item{H}{hour number (0-24 or 00-24)}
+#'   \item{M}{minute number (0-59 or 00-59)}
+#'   \item{S}{second number (0-61 or 00-61)}
 #' }
 #'
 #' This allows for mixed inputs. For example, 20181012130900,
@@ -30,6 +30,8 @@
 #' @param timezone Olson timezone at the location of interest.
 #' @param expectAll Logical value determining if the function should fail if
 #'   any elements fail to parse (default \code{FALSE}).
+#' @param julian Logical value determining whether \code{datetime} should be
+#' interpreted as a Julian date with day of year as a decimal number.
 #' @param quiet Logical value passed on to \code{lubridate::parse_date_time} to
 #'   optionally suppress warning messages.
 #'
@@ -71,6 +73,7 @@ parseDatetime <- function(
   datetime = NULL,
   timezone = NULL,
   expectAll = FALSE,
+  julian = FALSE,
   quiet = TRUE
 ) {
 
@@ -79,29 +82,56 @@ parseDatetime <- function(
   stopIfNull(datetime)
   stopIfNull(timezone)
   stopIfNull(expectAll)
+  stopIfNull(julian)
   stopIfNull(quiet)
 
   if ( !timezone %in% base::OlsonNames() )
     stop(paste0("timezone '", timezone, "' is not recognized."))
 
   if ( !is.logical(expectAll) || length(expectAll) != 1 )
-    stop("expectAll must be a logical value of length one.")
+    stop("argument 'expectAll' must be a logical value of length one.")
 
+  if ( !is.logical(julian) || length(julian) != 1 )
+    stop("argument 'julian' must be a logical value of length one.")
 
   # Return early if already POSIXct -----------------------------------------
 
   if (lubridate::is.POSIXct(datetime))
     return(lubridate::with_tz(datetime, tzone = timezone))
 
-
   # Parse datetimes ---------------------------------------------------------
 
-  orders <- c("Ymd", "YmdH", "YmdHM", "YmdHMS")
-  parsedDatetime <- lubridate::parse_date_time(datetime,
-                                               orders,
-                                               tz = timezone,
-                                               quiet = quiet)
+  if ( julian ) {
 
+    # NOTE:  Julian date strings created by NASA satellite products often
+    # NOTE:  include a digit for fractional seconds but no "." decimal marker.
+    # NOTE:  We test for and fix that here.
+
+    # Convert possible integers to character and separate fractional seconds
+    datetime <- as.character(datetime)
+    wholePart <- stringr::str_sub(datetime, 1, 13)
+    fractionalPart <- stringr::str_sub(datetime, 14, -1)
+
+    # Corrected date strings
+    datetime <-
+      paste0(wholePart, ".", fractionalPart) %>%
+      stringr::str_replace("\\.$", "")
+
+    orders <- c("Yj", "YjH", "YjHM", "YjHMS")
+    parsedDatetime <- lubridate::parse_date_time(datetime,
+                                                 orders,
+                                                 tz = timezone,
+                                                 quiet = quiet)
+
+  } else {
+
+    orders <- c("Ymd", "YmdH", "YmdHM", "YmdHMS")
+    parsedDatetime <- lubridate::parse_date_time(datetime,
+                                                 orders,
+                                                 tz = timezone,
+                                                 quiet = quiet)
+
+  }
 
   # Handle results ----------------------------------------------------------
 

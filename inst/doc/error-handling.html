@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -309,7 +310,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <div id="error-handling-in-java-and-python" class="section level1">
 <h1>Error Handling in Java and Python</h1>
-<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have ben thoroughly tested and shown to work properly with a variety of input.</p>
+<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have been thoroughly tested and shown to work properly with a variety of input.</p>
 <p>However, no software is perfect and no real-world system operates with 100% availability or 100% consistent input. Things occasionally go wrong – perhaps intermittently. In a situation with occasional failures it is vitally important to have robust error handling to deal with both expected and unexpected results.</p>
 <p>Other languages used in operational settings have language statements to help with error handling. The code to handle errors looks very similar in java and python:</p>
 <p><strong>java</strong></p>
@@ -424,7 +425,7 @@ stopOnError(result)</code></pre>
 <a class="sourceLine" id="cb6-17" data-line-number="17">  <span class="kw">stopOnError</span>(result)</a>
 <a class="sourceLine" id="cb6-18" data-line-number="18">  </a>
 <a class="sourceLine" id="cb6-19" data-line-number="19">}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; TRACE [2019-09-05 12:34:22] class(userInput) = numeric</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; TRACE [2019-10-04 04:45:16] class(userInput) = numeric</span></a>
 <a class="sourceLine" id="cb6-21" data-line-number="21"></a>
 <a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co"># Continue despite any errors</span></a>
 <a class="sourceLine" id="cb6-23" data-line-number="23">  </a>
@@ -436,8 +437,8 @@ stopOnError(result)</code></pre>
 <a class="sourceLine" id="cb6-29" data-line-number="29">  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb6-30" data-line-number="30">  <span class="kw">stopOnError</span>(result)</a>
 <a class="sourceLine" id="cb6-31" data-line-number="31">}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; TRACE [2019-09-05 12:34:22] class(userInput) = character</span></a>
-<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; ERROR [2019-09-05 12:34:22] Error in log(x) : non-numeric argument to mathematical function</span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; TRACE [2019-10-04 04:45:16] class(userInput) = character</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; ERROR [2019-10-04 04:45:16] Error in log(x) : non-numeric argument to mathematical function</span></a>
 <a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; Error : Error in log(x) : non-numeric argument to mathematical function</span></a>
 <a class="sourceLine" id="cb6-35" data-line-number="35"></a>
 <a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co"># Continue despite any errors</span></a>
@@ -449,14 +450,17 @@ stopOnError(result)</code></pre>
 <a class="sourceLine" id="cb6-42" data-line-number="42">  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb6-43" data-line-number="43">  <span class="kw">stopOnError</span>(result, <span class="st">&quot;Unable to process user input&quot;</span>)</a>
 <a class="sourceLine" id="cb6-44" data-line-number="44">}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt; TRACE [2019-09-05 12:34:22] class(userInput) = character</span></a>
-<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt; ERROR [2019-09-05 12:34:22] Unable to process user input</span></a>
+<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt; TRACE [2019-10-04 04:45:16] class(userInput) = character</span></a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt; ERROR [2019-10-04 04:45:16] Unable to process user input</span></a>
 <a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#&gt; Error : Unable to process user input</span></a>
 <a class="sourceLine" id="cb6-48" data-line-number="48"></a>
 <a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co"># Script completes with errors handled as they occurred</span></a></code></pre></div>
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,7 +97,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -309,7 +310,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <div id="logging-in-java-and-python" class="section level1">
 <h1>Logging in Java and Python</h1>
-<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have ben thoroughly tested and shown to work properly with a variety of input.</p>
+<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have been thoroughly tested and shown to work properly with a variety of input.</p>
 <p>However, no software is perfect and no real-world system operates with 100% availability or 100% consistent input. Things occasionally go wrong – perhaps intermittently. In a situation with occasional failures it is vitally important to have good logging information for forensic analyis.</p>
 <p>Other languages used in operational settings support logging at different levels of information density. The code to write out logs at these different levels looks very similar in java and python:</p>
 <p><strong>java</strong></p>
@@ -349,7 +350,7 @@ logger.trace(&quot;TRACE level message&quot;)</code></pre>
 <p>This functionality is built on top of the excellent <a href="https://github.com/zatonovo/futile.logger">futile.logger</a> package.</p>
 <div id="log-levels" class="section level2">
 <h2>Log Levels</h2>
-<p>When used properly, logging at different levels lets you to create log files that help you quickly navigate to the specific part of your code base that generated an error.</p>
+<p>When used properly, logging at different levels lets you create log files that help you quickly navigate to the specific part of your code base that generated an error.</p>
 <p>Different log levels also allow problems to be dealt with by staff with different skill levels. Core developers don’t need to be dragged in whenever anything goes wrong. If a real-time web site is non-responsive, non-technical staff can be assigned to look at logs to assess the situation.</p>
 <ul>
 <li>If the <code>ERROR</code> or <code>WARN</code> logs report that no data was obtained from an upstream source, the problem is not with the R code.</li>
@@ -432,29 +433,29 @@ logger.trace(&quot;TRACE level message&quot;)</code></pre>
 <p>Here is what is generated in the log files:</p>
 <div id="error.log" class="section level2">
 <h2>ERROR.log</h2>
-<pre><code>#&gt; ERROR [2019-09-05 12:34:23] NO ERRORS</code></pre>
+<pre><code>#&gt; ERROR [2019-10-04 04:45:16] NO ERRORS</code></pre>
 </div>
 <div id="info.log" class="section level2">
 <h2>INFO.log</h2>
-<pre><code>#&gt; INFO [2019-09-05 12:34:23] Begin loggingExample ...
-#&gt; WARN [2019-09-05 12:34:23] Oops: object 'flog.logger' not found
-#&gt; ERROR [2019-09-05 12:34:23] NO ERRORS
-#&gt; INFO [2019-09-05 12:34:23] Successfully completed loggingExample
-#&gt; INFO [2019-09-05 12:34:23] 
+<pre><code>#&gt; INFO [2019-10-04 04:45:16] Begin loggingExample ...
+#&gt; WARN [2019-10-04 04:45:16] Oops: object 'flog.logger' not found
+#&gt; ERROR [2019-10-04 04:45:16] NO ERRORS
+#&gt; INFO [2019-10-04 04:45:16] Successfully completed loggingExample
+#&gt; INFO [2019-10-04 04:45:16] 
 #&gt; =============== THE END ===============</code></pre>
 </div>
 <div id="trace.log" class="section level2">
 <h2>TRACE.log</h2>
-<pre><code>#&gt; INFO [2019-09-05 12:34:23] Begin loggingExample ...
-#&gt; TRACE [2019-09-05 12:34:23] Working on: Sepal.Length
-#&gt; TRACE [2019-09-05 12:34:23] Working on: Sepal.Width
-#&gt; TRACE [2019-09-05 12:34:23] Working on: Petal.Length
-#&gt; TRACE [2019-09-05 12:34:23] Working on: Petal.Width
-#&gt; TRACE [2019-09-05 12:34:23] Working on: Species
-#&gt; WARN [2019-09-05 12:34:23] Oops: object 'flog.logger' not found
-#&gt; ERROR [2019-09-05 12:34:23] NO ERRORS
-#&gt; INFO [2019-09-05 12:34:23] Successfully completed loggingExample
-#&gt; INFO [2019-09-05 12:34:23] 
+<pre><code>#&gt; INFO [2019-10-04 04:45:16] Begin loggingExample ...
+#&gt; TRACE [2019-10-04 04:45:16] Working on: Sepal.Length
+#&gt; TRACE [2019-10-04 04:45:16] Working on: Sepal.Width
+#&gt; TRACE [2019-10-04 04:45:16] Working on: Petal.Length
+#&gt; TRACE [2019-10-04 04:45:16] Working on: Petal.Width
+#&gt; TRACE [2019-10-04 04:45:16] Working on: Species
+#&gt; WARN [2019-10-04 04:45:16] Oops: object 'flog.logger' not found
+#&gt; ERROR [2019-10-04 04:45:16] NO ERRORS
+#&gt; INFO [2019-10-04 04:45:16] Successfully completed loggingExample
+#&gt; INFO [2019-10-04 04:45:16] 
 #&gt; =============== THE END ===============</code></pre>
 </div>
 </div>
@@ -473,6 +474,9 @@ logger.trace(&quot;TRACE level message&quot;)</code></pre>
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
