@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaCoreUtils
-Version: 0.4.0
+Version: 0.4.2
 Title: Utility Functions for Production R Code
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -24,8 +24,8 @@ Suggests: knitr, markdown, testthat (>= 2.1.0), rmarkdown, roxygen2
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 NeedsCompilation: no
-Packaged: 2019-11-06 20:40:34 UTC; jonathan
+Packaged: 2020-01-07 20:56:00 UTC; jonathan
 Repository: CRAN
-Date/Publication: 2019-11-06 21:30:02 UTC
+Date/Publication: 2020-01-08 23:02:21 UTC

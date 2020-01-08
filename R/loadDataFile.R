@@ -62,7 +62,7 @@ loadDataFile <- function(
       conn <- url(filepath)
       result <- try({
         objectName <- load(conn)
-      }, silent=TRUE )
+      }, silent = TRUE )
       close(conn)
 
       if ( "try-error" %in% class(result) ) {
@@ -73,7 +73,7 @@ loadDataFile <- function(
 
     }
 
-  })
+  }, silent = TRUE)
 
   # ----- Handle errors --------------------------------------------------------
 
