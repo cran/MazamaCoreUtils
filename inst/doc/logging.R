@@ -1,10 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----loggingExample------------------------------------------------------
+## ----loggingExample-----------------------------------------------------------
 library(MazamaCoreUtils)
 
 # Set up logging 
@@ -43,12 +43,12 @@ logger.info("\n=============== THE END ===============\n")
 # Check the output
 str(outputSums)
 
-## ----errorLog, echo = FALSE----------------------------------------------
+## ----errorLog, echo = FALSE---------------------------------------------------
 cat(paste(readLines(file.path(tmpDir,"ERROR.log")),collapse='\n'))
 
-## ----infoLog, echo = FALSE-----------------------------------------------
+## ----infoLog, echo = FALSE----------------------------------------------------
 cat(paste(readLines(file.path(tmpDir,"INFO.log")),collapse='\n'))
 
-## ----traceLog, echo = FALSE----------------------------------------------
+## ----traceLog, echo = FALSE---------------------------------------------------
 cat(paste(readLines(file.path(tmpDir,"TRACE.log")),collapse='\n'))
 

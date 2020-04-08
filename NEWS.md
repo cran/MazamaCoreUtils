@@ -1,3 +1,8 @@
+# MazamaCoreUtils 0.4.3
+
+* Now exporting `futile.logger::flog.layout()` to avoid downstream complaints.
+* Updated documentation for `check_~()` functions.
+
 # MazamaCoreUtils 0.4.2
 
 * Fixed error messaging in `loadDataFile()`.

@@ -1,10 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----stopOnError---------------------------------------------------------
+## ----stopOnError--------------------------------------------------------------
 library(MazamaCoreUtils)
 logger.setup()
 logger.setLevel(TRACE)
