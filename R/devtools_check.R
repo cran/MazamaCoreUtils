@@ -18,19 +18,27 @@
 #' Our solution is to provide shorthand functions that wrap
 #' \code{devtools::check()} and pass it a variety of different arguments.
 #'
-#' @details The table below describes the \code{args} passed:
+#' @details The table below describes the \code{args} passed to
+#' \code{devtools::check()}:
 #'
 #' \tabular{rl}{
-#' \code{check_slowest()} \tab | \code{args = c("--run-donttest", "--run-dontrun", "--use-gct")}\cr
-#' \code{check_slower()} \tab | \code{args = c("--run-donttest", "--run-dontrun")}\cr
-#' \code{check_slow()} \tab | \code{args = c("--run-donttest")}\cr
-#' \code{check_()} \tab | \code{args = c()}\cr
-#' \code{check_fast()} \tab | \code{args = c("--ignore-vignettes")}\cr
-#'  \tab | \code{build_args = c("--no-build-vignettes")}\cr
-#' \code{check_faster()} \tab | \code{args = c("--ignore-vignettes", "--no-examples")}\cr
-#'  \tab | \code{build_args = c("--no-build-vignettes", "--no-examples")}\cr
-#' \code{check_fastest()} \tab | \code{args = c("--ignore-vignettes", "--no-examples", "--no-manual", "--no-tests")}\cr
-#'  \tab | \code{build_args = c("--no-build-vignettes", "--no-manual")}\cr
+#' \code{check_slowest()} \tab | \code{manual = TRUE, run_dont_test = TRUE} \cr
+#' \tab | \code{args = c("--run-dontrun", "--use-gct")}\cr
+#' \code{check_slower()} \tab | \code{manual = TRUE, run_dont_test = TRUE} \cr
+#' \tab | \code{args = c("--run-dontrun")}\cr
+#' \code{check_slow()} \tab | \code{manual = TRUE, run_dont_test = TRUE}\cr
+#' \tab | \code{args = c()}\cr
+#' \code{check()} \tab | \code{manual = FALSE, run_dont_test = FALSE} \cr
+#' \tab | \code{args = c()}\cr
+#' \code{check_fast()} \tab | \code{manual = FALSE, run_dont_test = FALSE} \cr
+#' \tab | \code{build_args = c("--no-build-vignettes")}\cr
+#' \tab | \code{args = c("--ignore-vignettes")}\cr
+#' \code{check_faster()} \tab | \code{manual = FALSE, run_dont_test = FALSE} \cr
+#' \tab | \code{build_args = c("--no-build-vignettes")}\cr
+#' \tab | \code{args = c("--ignore-vignettes", "--no-examples")}\cr
+#' \code{check_fastest()} \tab | \code{manual = FALSE, run_dont_test = FALSE} \cr
+#' \tab | \code{build_args = c("--no-build-vignettes")}\cr
+#' \tab | \code{args = c("--ignore-vignettes", "--no-examples", "--no-tests")}\cr
 #' }
 #'
 #'
@@ -49,7 +57,9 @@ check <- function(
 ) {
 
   devtools::check(
-    pkg = pkg
+    pkg = pkg,
+    manual = FALSE,
+    run_dont_test = FALSE
   )
 
 }
@@ -62,6 +72,8 @@ check_fast <- function(
 
   devtools::check(
     pkg = pkg,
+    manual = FALSE,
+    run_dont_test = FALSE,
     build_args = c("--no-build-vignettes"),
     args = c("--ignore-vignettes")
   )
@@ -76,6 +88,8 @@ check_faster <- function(
 
   devtools::check(
     pkg = pkg,
+    manual = FALSE,
+    run_dont_test = FALSE,
     build_args = c("--no-build-vignettes"),
     args = c("--ignore-vignettes", "--no-examples")
   )
@@ -90,9 +104,11 @@ check_fastest <- function(
 
   devtools::check(
     pkg = pkg,
-    build_args = c("--no-build-vignettes", "--no-manual"),
-    args = c("--ignore-vignettes", "--no-manual",
-             "--no-tests", "--no-examples")
+    manual = FALSE,
+    run_dont_test = FALSE,
+    build_args = c("--no-build-vignettes"),
+    args = c("--ignore-vignettes", "--no-tests",
+             "--no-examples")
   )
 
 }
@@ -105,7 +121,8 @@ check_slow <- function(
 
   devtools::check(
     pkg = pkg,
-    args = c("--run-donttest")
+    manual = TRUE,
+    run_dont_test = TRUE,
   )
 
 }
@@ -118,7 +135,9 @@ check_slower <- function(
 
   devtools::check(
     pkg = pkg,
-    args = c("--run-donttest", "--run-dontrun")
+    manual = TRUE,
+    run_dont_test = TRUE,
+    args = c("--run-dontrun")
   )
 
 }
@@ -131,7 +150,9 @@ check_slowest <- function(
 
   devtools::check(
     pkg = pkg,
-    args = c("--run-donttest", "--run-dontrun", "--use-gct")
+    manual = TRUE,
+    run_dont_test = TRUE,
+    args = c("--run-dontrun", "--use-gct")
   )
 
 }
