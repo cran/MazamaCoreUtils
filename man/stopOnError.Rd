@@ -29,6 +29,8 @@ The example section contains a snippet showing how we use this function.
 }
 \examples{
 \dontrun{
+library(MazamaCoreUtils)
+
 logger.setup()
 
 # Arbitrarily deep in the stack we might have:
@@ -52,5 +54,6 @@ result <- try({
   myFunc(x=userInput)
 }, silent=TRUE)
 stopOnError(result, "Unable to process user input")
+
 }
 }

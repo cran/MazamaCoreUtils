@@ -1,3 +1,14 @@
+# MazamaCoreUtils 0.4.8
+
+* Fixed bug in `dateRange()` when creating single day date ranges.
+* Added `"ymdThms"` format to `timeStamp()`.
+* Added `"msec"` unit option to `timestamp()`.
+* Renamed default branch from 'master' to 'main'.
+
+# MazamaCoreUtils 0.4.7
+
+* Updated `html_getTable()` to not disregard the `index` parameter.
+
 # MazamaCoreUtils 0.4.6
 
 * Updated `check_~()` functions to use `devtools::check()` `manual` and 

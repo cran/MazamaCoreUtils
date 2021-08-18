@@ -177,10 +177,10 @@ a universal time axis &ndash; UTC.</p>
 <p>Problems can arise when parsing and formatting dates and times because R
 defaults to the system timezone available with <code>Sys.timezone()</code>. Imagine
 an agency scientist based in Washington, DC, using their laptop to display 
-recent airquality data from Los Angeles while at a conference in Tasmania. The 
-data center processing  the data might be in Boudler but the data processing 
+recent air quality data from Los Angeles while at a conference in Tasmania. The 
+data center processing  the data might be in Boulder but the data processing 
 machine  might be set to use UTC. Potential timezones 
-(availabe with <code>OlsonNames()</code>) relavent to this scenario include:</p>
+(available with <code>OlsonNames()</code>) relevant to this scenario include:</p>
 
 <ul>
 <li><code>America/New_York</code></li>
@@ -190,7 +190,7 @@ machine  might be set to use UTC. Potential timezones
 <li><code>UTC</code></li>
 </ul>
 
-<p>Which timezone shold be used to convert a request for data from &ldquo;2019-08-08&rdquo;&ldquo; to 
+<p>Which timezone should be used to convert a request for data from &ldquo;2019-08-08&rdquo;&ldquo; to 
 &quot;2018-08-15&rdquo;&ldquo; into <code>POSIXct</code> datetimes?</p>
 
 <p>To enforce specification of timezones and to help with the common user interface
@@ -212,8 +212,8 @@ for <code>lubridate::parse_date_time()</code>.</p>
 <h1>Linting for timezones</h1>
 
 <p>Enforcing the specification of timezones throughout a body of code is the most
-robust way to remove timezone-related errors from your code. To help with this
-type of code review, the package also includes functions for testing whether
+robust way to remove timezone-related errors from your software. To help with this
+thistype of code review, the package also includes functions for testing whether
 specific named arguments are used with certain function calls:</p>
 
 <ul>
@@ -243,7 +243,8 @@ explicitly.</li>
 
 <p>While these functions could be used to test for explicit use in any 
 <code>function:argument</code> pair, our concern here is primarily with specification of
-timezones. As an example, here is the result of linting the <code>dateRange.R</code>
+timezones. The packages includes a detailed list of <code>timezoneLintRules</code> to help 
+with this. As an example, here is the result of linting the <code>dateRange.R</code>
 function in this package:</p>
 
 <pre><code>&gt; lintFunctionArgs_file(&quot;R/dateRange.R&quot;, timezoneLintRules)
@@ -259,10 +260,10 @@ function in this package:</p>
 7 dateRange.R         188            18 now             &lt;chr [1]&gt;  TRUE             
 </code></pre>
 
-<p>The result shows that the dateRange.R source code is consistent in always
+<p>The result shows that the <code>dateRange.R</code> source code is consistent in always
 explicitly specifying a timezone.</p>
 
-<p>Hopefully, this attention to timezones will help our code avoid 
+<p>Hopefully, this attention to timezones will help your code avoid 
 misunderstandings when it comes to date and time requests.</p>
 
 </body>

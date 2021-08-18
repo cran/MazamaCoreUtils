@@ -270,7 +270,7 @@ and python:</p>
 <p>For more details see:</p>
 
 <ul>
-<li><a href="http://mazamascience.com/WorkingWithData/?p=912">Basic Error Handling with tryCatch()</a></li>
+<li><a href="https://working-with-data.mazamascience.com/2020/10/08/basic-error-handing-in-r-with-trycatch/">Basic Error Handling with tryCatch()</a></li>
 <li><a href="http://adv-r.had.co.nz/Exceptions-Debugging.html">Exceptions and debugging - Advanced R</a></li>
 </ul>
 
@@ -292,7 +292,7 @@ a <code>try()</code> function and then testing the result to see if an error occ
 <p>For more details see:</p>
 
 <ul>
-<li><a href="http://mazamascience.com/WorkingWithData/?p=929">Easier Error Handling with try()</a></li>
+<li><a href="https://working-with-data.mazamascience.com/2020/10/09/easier-error-handling-in-r-with-try/">Easier Error Handling with try()</a></li>
 </ul>
 
 <p>This strategy makes it easy to create error handling logic and easy to
@@ -364,7 +364,7 @@ result &lt;- try({
   stopOnError(result)
 
 }, silent = FALSE)
-#&gt; TRACE [2020-11-13 12:35:26] class(userInput) = numeric
+#&gt; TRACE [2021-08-17 13:08:16] class(userInput) = numeric
 
 # Continue despite any errors
 
@@ -376,8 +376,8 @@ result &lt;- try({
   }, silent=TRUE)
   stopOnError(result)
 }, silent = FALSE)
-#&gt; TRACE [2020-11-13 12:35:26] class(userInput) = character
-#&gt; ERROR [2020-11-13 12:35:26] Error in log(x) : non-numeric argument to mathematical function
+#&gt; TRACE [2021-08-17 13:08:16] class(userInput) = character
+#&gt; ERROR [2021-08-17 13:08:16] Error in log(x) : non-numeric argument to mathematical function
 #&gt; Error : Error in log(x) : non-numeric argument to mathematical function
 
 # Continue despite any errors
@@ -389,8 +389,8 @@ result &lt;- try({
   }, silent=TRUE)
   stopOnError(result, &quot;Unable to process user input&quot;)
 }, silent = FALSE)
-#&gt; TRACE [2020-11-13 12:35:26] class(userInput) = character
-#&gt; ERROR [2020-11-13 12:35:26] Unable to process user input
+#&gt; TRACE [2021-08-17 13:08:16] class(userInput) = character
+#&gt; ERROR [2021-08-17 13:08:16] Unable to process user input
 #&gt; Error : Unable to process user input
 
 # Script completes with errors handled as they occurred

@@ -210,7 +210,7 @@ work properly with a variety of input.</p>
 <p>However, no software is perfect and no real-world system operates with 100% 
 availability or 100% consistent input. Things occasionally go wrong &ndash; perhaps
 intermittently. In a situation with occasional failures it is vitally important
-to have good logging information for forensic analyis.</p>
+to have good logging information for forensic analysis.</p>
 
 <p>Other languages used in operational settings support logging at different levels
 of information density. The code to write out logs at these different levels
@@ -295,8 +295,8 @@ complete.</p>
 
 <h3>WARN</h3>
 
-<p><code>WARN</code> log statements imply that something unexpected happend but that R code is
-able to complete, perhaps with unpredicatble results. An appropriate use would
+<p><code>WARN</code> log statements imply that something unexpected happened but that R code is
+able to complete, perhaps with unpredictable results. An appropriate use would
 be after testing the response of an internet request. R code may be able to
 trap and handle a failed request but should comment on the failure in the logs.</p>
 
@@ -379,31 +379,31 @@ str(outputSums)
 
 <h2>ERROR.log</h2>
 
-<pre><code>#&gt; ERROR [2020-11-13 12:35:26] NO ERRORS
+<pre><code>#&gt; ERROR [2021-08-17 13:08:16] NO ERRORS
 </code></pre>
 
 <h2>INFO.log</h2>
 
-<pre><code>#&gt; INFO [2020-11-13 12:35:26] Begin loggingExample ...
-#&gt; WARN [2020-11-13 12:35:26] Oops: object &#39;flog.layout&#39; not found
-#&gt; ERROR [2020-11-13 12:35:26] NO ERRORS
-#&gt; INFO [2020-11-13 12:35:26] Successfully completed loggingExample
-#&gt; INFO [2020-11-13 12:35:26] 
+<pre><code>#&gt; INFO [2021-08-17 13:08:16] Begin loggingExample ...
+#&gt; WARN [2021-08-17 13:08:16] Oops: object &#39;flog.layout&#39; not found
+#&gt; ERROR [2021-08-17 13:08:16] NO ERRORS
+#&gt; INFO [2021-08-17 13:08:16] Successfully completed loggingExample
+#&gt; INFO [2021-08-17 13:08:16] 
 #&gt; =============== THE END ===============
 </code></pre>
 
 <h2>TRACE.log</h2>
 
-<pre><code>#&gt; INFO [2020-11-13 12:35:26] Begin loggingExample ...
-#&gt; TRACE [2020-11-13 12:35:26] Working on: Sepal.Length
-#&gt; TRACE [2020-11-13 12:35:26] Working on: Sepal.Width
-#&gt; TRACE [2020-11-13 12:35:26] Working on: Petal.Length
-#&gt; TRACE [2020-11-13 12:35:26] Working on: Petal.Width
-#&gt; TRACE [2020-11-13 12:35:26] Working on: Species
-#&gt; WARN [2020-11-13 12:35:26] Oops: object &#39;flog.layout&#39; not found
-#&gt; ERROR [2020-11-13 12:35:26] NO ERRORS
-#&gt; INFO [2020-11-13 12:35:26] Successfully completed loggingExample
-#&gt; INFO [2020-11-13 12:35:26] 
+<pre><code>#&gt; INFO [2021-08-17 13:08:16] Begin loggingExample ...
+#&gt; TRACE [2021-08-17 13:08:16] Working on: Sepal.Length
+#&gt; TRACE [2021-08-17 13:08:16] Working on: Sepal.Width
+#&gt; TRACE [2021-08-17 13:08:16] Working on: Petal.Length
+#&gt; TRACE [2021-08-17 13:08:16] Working on: Petal.Width
+#&gt; TRACE [2021-08-17 13:08:16] Working on: Species
+#&gt; WARN [2021-08-17 13:08:16] Oops: object &#39;flog.layout&#39; not found
+#&gt; ERROR [2021-08-17 13:08:16] NO ERRORS
+#&gt; INFO [2021-08-17 13:08:16] Successfully completed loggingExample
+#&gt; INFO [2021-08-17 13:08:16] 
 #&gt; =============== THE END ===============
 </code></pre>
 
