@@ -1,241 +1,359 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Logging in Java and Python</title>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Jonathan Callahan" />
+
+<meta name="date" content="2018-12-02" />
+
+<title>Logging</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
   }
-};
+});
 </script>
 
-<!-- Styles for R syntax highlighter -->
 <style type="text/css">
-   pre .operator,
-   pre .paren {
-     color: rgb(104, 118, 135)
-   }
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
-   pre .literal {
-     color: #990073
-   }
 
-   pre .number {
-     color: #099;
-   }
-
-   pre .comment {
-     color: #998;
-     font-style: italic
-   }
-
-   pre .keyword {
-     color: #900;
-     font-weight: bold
-   }
-
-   pre .identifier {
-     color: rgb(0, 0, 0);
-   }
-
-   pre .string {
-     color: #d14;
-   }
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
 </style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
-<!-- R syntax highlighter -->
-<script type="text/javascript">
-var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
-hljs.initHighlightingOnLoad();
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
 
 
 
-<style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
-}
 
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
 }
-
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
 }
-
-h1 {
-   font-size:2.2em;
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
 }
-
-h2 {
-   font-size:1.8em;
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
 }
-
-h3 {
-   font-size:1.4em;
+#TOC ul ul {
+margin-left: -2em;
 }
-
-h4 {
-   font-size:1.0em;
+#TOC li {
+line-height: 16px;
 }
-
-h5 {
-   font-size:0.9em;
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
 }
-
-h6 {
-   font-size:0.8em;
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
 }
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
 }
-
-pre, img {
-  max-width: 100%;
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
 }
 pre {
-  overflow-x: auto;
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
 }
-pre code {
-   display: block; padding: 0.5em;
+pre:not([class]) {
+background-color: #f7f7f7;
 }
-
 code {
-  font-size: 92%;
-  border: 1px solid #ccc;
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
 }
-
-code[class] {
-  background-color: #F8F8F8;
+p > code, li > code {
+padding: 2px 0px;
 }
-
-table, td, th {
-  border: none;
+div.figure {
+text-align: center;
 }
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
 }
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
 }
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
 }
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
+
 
 
 
 </head>
 
 <body>
+
+
+
+
+<h1 class="title toc-ignore">Logging</h1>
+<h4 class="author">Jonathan Callahan</h4>
+<h4 class="date">2018-12-02</h4>
+
+
+
+<div id="logging-in-java-and-python" class="section level1">
 <h1>Logging in Java and Python</h1>
-
-<p>Operational systems, by definition, need to work without human input. Systems
-are considered &ldquo;operational&rdquo; after they have been thoroughly tested and shown to
-work properly with a variety of input.</p>
-
-<p>However, no software is perfect and no real-world system operates with 100% 
-availability or 100% consistent input. Things occasionally go wrong &ndash; perhaps
-intermittently. In a situation with occasional failures it is vitally important
-to have good logging information for forensic analysis.</p>
-
-<p>Other languages used in operational settings support logging at different levels
-of information density. The code to write out logs at these different levels
-looks very similar in java and python:</p>
-
+<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have been thoroughly tested and shown to work properly with a variety of input.</p>
+<p>However, no software is perfect and no real-world system operates with 100% availability or 100% consistent input. Things occasionally go wrong – perhaps intermittently. In a situation with occasional failures it is vitally important to have good logging information for forensic analysis.</p>
+<p>Other languages used in operational settings support logging at different levels of information density. The code to write out logs at these different levels looks very similar in java and python:</p>
 <p><strong>java</strong></p>
-
 <pre><code>import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.Jdk14Logger;
-</code></pre>
-
-<p>&hellip; ugly setup of log files &hellip;</p>
-
+import org.apache.commons.logging.impl.Jdk14Logger;</code></pre>
+<p>… ugly setup of log files …</p>
 <pre><code>log.error(&quot;ERROR level message&quot;);
 log.warn(&quot;WARN level message&quot;);
 log.info(&quot;INFO level message&quot;);
 log.debug(&quot;DEBUG level message&quot;);
-log.trace(&quot;TRACE level message&quot;);
-</code></pre>
-
+log.trace(&quot;TRACE level message&quot;);</code></pre>
 <p><strong>python</strong></p>
-
 <pre><code>import logging
-
+ 
 logging.basicConfig(filename=&quot;my_INFO.log&quot;,
                     level=logging.INFO)
 
@@ -243,194 +361,160 @@ logging.error(&quot;ERROR level message&quot;)
 logging.warning(&quot;WARNING level message&quot;)
 logging.info(&quot;INFO level message&quot;)
 logging.debug(&quot;DEBUG level message&quot;)
-logging.trace(&quot;TRACE level message&quot;)
-</code></pre>
-
+logging.trace(&quot;TRACE level message&quot;)</code></pre>
+</div>
+<div id="logging-in-r" class="section level1">
 <h1>Logging in R</h1>
-
-<p>The <strong>MazamaCoreUtils</strong> package provides functions so that R logging can look
-very similar:</p>
-
+<p>The <strong>MazamaCoreUtils</strong> package provides functions so that R logging can look very similar:</p>
 <pre><code>library(MazamaCoreUtils)
-
+ 
 logger.setup(infoLog=&quot;my_INFO.log&quot;)
 
 logger.error(&quot;ERROR level message&quot;)
 logger.warn(&quot;WARN level message&quot;)
 logger.info(&quot;INFO level message&quot;)
 logger.debug(&quot;DEBUG level message&quot;)
-logger.trace(&quot;TRACE level message&quot;)
-</code></pre>
-
-<p>This functionality is built on top of the excellent
-<a href="https://github.com/zatonovo/futile.logger">futile.logger</a> package.</p>
-
+logger.trace(&quot;TRACE level message&quot;)</code></pre>
+<p>This functionality is built on top of the excellent <a href="https://github.com/zatonovo/futile.logger">futile.logger</a> package.</p>
+<div id="log-levels" class="section level2">
 <h2>Log Levels</h2>
-
-<p>When used properly, logging at different levels lets you create log files 
-that help you quickly navigate to the specific part of your code base that 
-generated an error.</p>
-
-<p>Different log levels also allow problems to be dealt with by staff with different
-skill levels. Core developers don&#39;t need to be dragged in whenever anything goes
-wrong. If a real-time web site is non-responsive, non-technical staff can be 
-assigned to look at logs to assess the situation.</p>
-
+<p>When used properly, logging at different levels lets you create log files that help you quickly navigate to the specific part of your code base that generated an error.</p>
+<p>Different log levels also allow problems to be dealt with by staff with different skill levels. Core developers don’t need to be dragged in whenever anything goes wrong. If a real-time web site is non-responsive, non-technical staff can be assigned to look at logs to assess the situation.</p>
 <ul>
-<li>If the <code>ERROR</code> or <code>WARN</code> logs report that no data was obtained from an upstream 
-source, the problem is not with the R code.</li>
-<li>If the <code>INFO</code> log reports that incoming data was properly obtained but that
-none of it passed QC thresholds, the problem is not with the R code.</li>
-<li>If, however, these logs show everything running smoothly until some ugly R
-error message, then it is time to call in the core developers.</li>
+<li>If the <code>ERROR</code> or <code>WARN</code> logs report that no data was obtained from an upstream source, the problem is not with the R code.</li>
+<li>If the <code>INFO</code> log reports that incoming data was properly obtained but that none of it passed QC thresholds, the problem is not with the R code.</li>
+<li>If, however, these logs show everything running smoothly until some ugly R error message, then it is time to call in the core developers.</li>
 </ul>
-
 <p>Here are our best practices for how to use the different log levels:</p>
-
+<div id="error" class="section level3">
 <h3>ERROR</h3>
-
-<p><code>ERROR</code> log statements should only be generated immediately before a <code>stop()</code> is
-issued. The <code>ERROR.log</code> file should only have entries when R code failed to
-complete.</p>
-
+<p><code>ERROR</code> log statements should only be generated immediately before a <code>stop()</code> is issued. The <code>ERROR.log</code> file should only have entries when R code failed to complete.</p>
+</div>
+<div id="warn" class="section level3">
 <h3>WARN</h3>
-
-<p><code>WARN</code> log statements imply that something unexpected happened but that R code is
-able to complete, perhaps with unpredictable results. An appropriate use would
-be after testing the response of an internet request. R code may be able to
-trap and handle a failed request but should comment on the failure in the logs.</p>
-
+<p><code>WARN</code> log statements imply that something unexpected happened but that R code is able to complete, perhaps with unpredictable results. An appropriate use would be after testing the response of an internet request. R code may be able to trap and handle a failed request but should comment on the failure in the logs.</p>
+</div>
+<div id="info" class="section level3">
 <h3>INFO</h3>
-
-<p><code>INFO</code> log statements are useful for a general overview of how your R code is
-proceeding, reflecting top level code structure and perhaps ending with a final:</p>
-
+<p><code>INFO</code> log statements are useful for a general overview of how your R code is proceeding, reflecting top level code structure and perhaps ending with a final:</p>
 <pre><code>  logger.info(&quot;Successfully completed ...&quot;)
-  logger.info(&quot;\n=============== THE END ===============\n&quot;)
-</code></pre>
-
+  logger.info(&quot;\n=============== THE END ===============\n&quot;)</code></pre>
+</div>
+<div id="debug" class="section level3">
 <h3>DEBUG</h3>
-
-<p><code>DEBUG</code> log statements are best used to map out the path taken through the
-code. We recommend including <code>DEBUG</code> level statements inside of top level loops
-and beginning each function with the following:</p>
-
-<pre><code>logger.debug(&quot;----- FUNCTION_NAME() -----&quot;)
-</code></pre>
-
+<p><code>DEBUG</code> log statements are best used to map out the path taken through the code. We recommend including <code>DEBUG</code> level statements inside of top level loops and beginning each function with the following:</p>
+<pre><code>logger.debug(&quot;----- FUNCTION_NAME() -----&quot;)</code></pre>
+</div>
+<div id="trace" class="section level3">
 <h3>TRACE</h3>
-
-<p><code>TRACE</code> log statements are for the gory details of any part of your code where
-you expect or are experiencing errors. These should contain information about
-program state and are intended only for developers.</p>
-
+<p><code>TRACE</code> log statements are for the gory details of any part of your code where you expect or are experiencing errors. These should contain information about program state and are intended only for developers.</p>
+</div>
+</div>
+</div>
+<div id="a-logging-example" class="section level1">
 <h1>A Logging Example</h1>
-
-<p>The following minimal example demonstrates the use of logging statements and
-their output. </p>
-
-<pre><code class="r">library(MazamaCoreUtils)
-
-# Set up logging 
-tmpDir &lt;- tempdir()
-logger.setup(
-  errorLog = file.path(tmpDir,&quot;ERROR.log&quot;),
-  infoLog = file.path(tmpDir,&quot;INFO.log&quot;),
-  traceLog = file.path(tmpDir,&quot;TRACE.log&quot;)
-)
-
-# Begin main program
-logger.info(&quot;Begin loggingExample ...&quot;)
-
-# Try something that might fail
-outputSums &lt;- list()
-for ( column in names(iris) ) {
-
-  logger.trace(&quot;Working on: %s&quot;, column)
-
-  result &lt;- try({
-    outputSums[[column]] &lt;- 
-      paste0(&quot;Sum of &quot;, column, &quot; = &quot;, sum(iris[[column]]))
-  }, silent = FALSE)
-
-  if ( &quot;try-error&quot; %in% class(result) ) {
-    logger.warn(&quot;Oops: %s&quot;, geterrmessage())
-  }
-
-}
-#&gt; Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : 
-#&gt;   &#39;sum&#39; not meaningful for factors
-
-# Successful completion
-logger.error(&quot;NO ERRORS&quot;)
-logger.info(&quot;Successfully completed loggingExample&quot;)
-logger.info(&quot;\n=============== THE END ===============\n&quot;)
-
-# Check the output
-str(outputSums)
-#&gt; List of 4
-#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;
-#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;
-#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;
-#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;
-</code></pre>
-
+<p>The following minimal example demonstrates the use of logging statements and their output.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">library</span>(MazamaCoreUtils)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="co"># Set up logging </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>tmpDir &lt;-<span class="st"> </span><span class="kw">tempdir</span>()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="kw">logger.setup</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>  <span class="dt">errorLog =</span> <span class="kw">file.path</span>(tmpDir,<span class="st">&quot;ERROR.log&quot;</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>  <span class="dt">infoLog =</span> <span class="kw">file.path</span>(tmpDir,<span class="st">&quot;INFO.log&quot;</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>  <span class="dt">traceLog =</span> <span class="kw">file.path</span>(tmpDir,<span class="st">&quot;TRACE.log&quot;</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a><span class="co"># Begin main program</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;Begin loggingExample ...&quot;</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a><span class="co"># Try something that might fail</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>outputSums &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a><span class="cf">for</span> ( column <span class="cf">in</span> <span class="kw">names</span>(iris) ) {</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>  </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a>  <span class="kw">logger.trace</span>(<span class="st">&quot;Working on: %s&quot;</span>, column)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>  </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>  result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>    outputSums[[column]] &lt;-<span class="st"> </span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a><span class="st">      </span><span class="kw">paste0</span>(<span class="st">&quot;Sum of &quot;</span>, column, <span class="st">&quot; = &quot;</span>, <span class="kw">sum</span>(iris[[column]]))</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>  }, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>  </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>  <span class="cf">if</span> ( <span class="st">&quot;try-error&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(result) ) {</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>    <span class="kw">logger.warn</span>(<span class="st">&quot;Oops: %s&quot;</span>, <span class="kw">geterrmessage</span>())</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a>  }</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a>  </span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>}</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a><span class="co">#&gt; Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a><span class="co">#&gt;   &#39;sum&#39; not meaningful for factors</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a><span class="co"># Successful completion</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a><span class="kw">logger.error</span>(<span class="st">&quot;NO ERRORS&quot;</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;Successfully completed loggingExample&quot;</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">=============== THE END ===============</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a><span class="co"># Check the output</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a><span class="kw">str</span>(outputSums)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a><span class="co">#&gt; List of 4</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a><span class="co">#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a><span class="co">#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a><span class="co">#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a><span class="co">#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;</span></span></code></pre></div>
 <p>Here is what is generated in the log files:</p>
-
+<div id="error.log" class="section level2">
 <h2>ERROR.log</h2>
-
-<pre><code>#&gt; ERROR [2021-08-17 13:08:16] NO ERRORS
-</code></pre>
-
+<pre><code>#&gt; ERROR [2021-10-08 16:25:57] NO ERRORS</code></pre>
+</div>
+<div id="info.log" class="section level2">
 <h2>INFO.log</h2>
-
-<pre><code>#&gt; INFO [2021-08-17 13:08:16] Begin loggingExample ...
-#&gt; WARN [2021-08-17 13:08:16] Oops: object &#39;flog.layout&#39; not found
-#&gt; ERROR [2021-08-17 13:08:16] NO ERRORS
-#&gt; INFO [2021-08-17 13:08:16] Successfully completed loggingExample
-#&gt; INFO [2021-08-17 13:08:16] 
-#&gt; =============== THE END ===============
-</code></pre>
-
+<pre><code>#&gt; INFO [2021-10-08 16:25:57] Begin loggingExample ...
+#&gt; WARN [2021-10-08 16:25:57] Oops: object &#39;flog.layout&#39; not found
+#&gt; ERROR [2021-10-08 16:25:57] NO ERRORS
+#&gt; INFO [2021-10-08 16:25:57] Successfully completed loggingExample
+#&gt; INFO [2021-10-08 16:25:57] 
+#&gt; =============== THE END ===============</code></pre>
+</div>
+<div id="trace.log" class="section level2">
 <h2>TRACE.log</h2>
-
-<pre><code>#&gt; INFO [2021-08-17 13:08:16] Begin loggingExample ...
-#&gt; TRACE [2021-08-17 13:08:16] Working on: Sepal.Length
-#&gt; TRACE [2021-08-17 13:08:16] Working on: Sepal.Width
-#&gt; TRACE [2021-08-17 13:08:16] Working on: Petal.Length
-#&gt; TRACE [2021-08-17 13:08:16] Working on: Petal.Width
-#&gt; TRACE [2021-08-17 13:08:16] Working on: Species
-#&gt; WARN [2021-08-17 13:08:16] Oops: object &#39;flog.layout&#39; not found
-#&gt; ERROR [2021-08-17 13:08:16] NO ERRORS
-#&gt; INFO [2021-08-17 13:08:16] Successfully completed loggingExample
-#&gt; INFO [2021-08-17 13:08:16] 
-#&gt; =============== THE END ===============
-</code></pre>
-
+<pre><code>#&gt; INFO [2021-10-08 16:25:57] Begin loggingExample ...
+#&gt; TRACE [2021-10-08 16:25:57] Working on: Sepal.Length
+#&gt; TRACE [2021-10-08 16:25:57] Working on: Sepal.Width
+#&gt; TRACE [2021-10-08 16:25:57] Working on: Petal.Length
+#&gt; TRACE [2021-10-08 16:25:57] Working on: Petal.Width
+#&gt; TRACE [2021-10-08 16:25:57] Working on: Species
+#&gt; WARN [2021-10-08 16:25:57] Oops: object &#39;flog.layout&#39; not found
+#&gt; ERROR [2021-10-08 16:25:57] NO ERRORS
+#&gt; INFO [2021-10-08 16:25:57] Successfully completed loggingExample
+#&gt; INFO [2021-10-08 16:25:57] 
+#&gt; =============== THE END ===============</code></pre>
+</div>
+</div>
+<div id="extra-functionality" class="section level1">
 <h1>Extra Functionality</h1>
-
 <p>Two more utility functions need to be mentioned</p>
-
+<div id="logger.setlevel" class="section level3">
 <h3><code>logger.setLevel()</code></h3>
-
-<p>This function sets the log level used in the console. By default this level is
-set to <code>FATAL</code> which basically means &ldquo;only when R crashes&rdquo;. If you are debugging
-code interactively you may wish to see log messages as the are generated by
-entering the following command:</p>
-
-<pre><code>logger.setLevel(TRACE)
-</code></pre>
-
+<p>This function sets the log level used in the console. By default this level is set to <code>FATAL</code> which basically means “only when R crashes”. If you are debugging code interactively you may wish to see log messages as the are generated by entering the following command:</p>
+<pre><code>logger.setLevel(TRACE)</code></pre>
+</div>
+<div id="initializelogging" class="section level3">
 <h3><code>initializeLogging()</code></h3>
+<p>This function is a wrapper for our typical usage. It accepts a <code>logDir</code> parameter and looks for <code>TRACE</code>, <code>DEBUG</code> <code>INFO</code> and <code>ERROR</code> logs in that directory. If they are found, they are renamed as <code>paste0(logLevel,&quot;.log.&quot;,timestamp)</code>. After renaming, new log files are setup.</p>
+<p>This is particularly useful for operational code run inside docker containers which may be automatically rebooted.</p>
+</div>
+</div>
 
-<p>This function is a wrapper for our typical usage. It accepts a <code>logDir</code>
-parameter and looks for <code>TRACE</code>, <code>DEBUG</code> <code>INFO</code> and <code>ERROR</code> logs in that 
-directory. If they are found, they are renamed as 
-<code>paste0(logLevel,&quot;.log.&quot;,timestamp)</code>. After renaming, new log files are setup.</p>
 
-<p>This is particularly useful for operational code run inside docker containers
-which may be automatically rebooted.</p>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
-
 </html>
