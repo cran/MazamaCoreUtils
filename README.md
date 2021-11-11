@@ -1,6 +1,7 @@
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MazamaCoreUtils)](https://cran.r-project.org/package=MazamaCoreUtils)
 [![Downloads](http://cranlogs.r-pkg.org/badges/MazamaCoreUtils)](https://cran.r-project.org/package=MazamaCoreUtils)
 [![Build Status](https://travis-ci.org/MazamaScience/MazamaCoreUtils.svg?branch=master)](https://travis-ci.org/MazamaScience/MazamaCoreUtils)
+[![DOI](https://zenodo.org/badge/152321630.svg)](https://zenodo.org/badge/latestdoi/152321630)
 
 # MazamaCoreUtils
 
@@ -25,6 +26,7 @@ Areas of functionality supported by this package include:
  * python style logging
  * simple error messaging
  * cache management
+ * API key handling
  * date-time parsing
  * lat/lon validation and uniqueID creation
  * source code linting

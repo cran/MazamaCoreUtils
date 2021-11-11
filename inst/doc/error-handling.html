@@ -453,7 +453,7 @@ stopOnError(result)</code></pre>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>  <span class="kw">stopOnError</span>(result)</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>  </span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a><span class="co">#&gt; TRACE [2021-10-08 16:25:57] class(userInput) = numeric</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a><span class="co">#&gt; TRACE [2021-11-11 10:45:29] class(userInput) = numeric</span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a><span class="co"># Continue despite any errors</span></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a>  </span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
@@ -464,8 +464,8 @@ stopOnError(result)</code></pre>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a>  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a>  <span class="kw">stopOnError</span>(result)</span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a>}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a><span class="co">#&gt; TRACE [2021-10-08 16:25:57] class(userInput) = character</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a><span class="co">#&gt; ERROR [2021-10-08 16:25:57] Error in log(x) : non-numeric argument to mathematical function</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a><span class="co">#&gt; TRACE [2021-11-11 10:45:29] class(userInput) = character</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a><span class="co">#&gt; ERROR [2021-11-11 10:45:29] Error in log(x) : non-numeric argument to mathematical function</span></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a><span class="co">#&gt; Error : Error in log(x) : non-numeric argument to mathematical function</span></span>
 <span id="cb6-34"><a href="#cb6-34" aria-hidden="true"></a><span class="co"># Continue despite any errors</span></span>
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true"></a></span>
@@ -476,8 +476,8 @@ stopOnError(result)</code></pre>
 <span id="cb6-40"><a href="#cb6-40" aria-hidden="true"></a>  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</span>
 <span id="cb6-41"><a href="#cb6-41" aria-hidden="true"></a>  <span class="kw">stopOnError</span>(result, <span class="st">&quot;Unable to process user input&quot;</span>)</span>
 <span id="cb6-42"><a href="#cb6-42" aria-hidden="true"></a>}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true"></a><span class="co">#&gt; TRACE [2021-10-08 16:25:57] class(userInput) = character</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true"></a><span class="co">#&gt; ERROR [2021-10-08 16:25:57] Unable to process user input</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true"></a><span class="co">#&gt; TRACE [2021-11-11 10:45:29] class(userInput) = character</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true"></a><span class="co">#&gt; ERROR [2021-11-11 10:45:29] Unable to process user input</span></span>
 <span id="cb6-45"><a href="#cb6-45" aria-hidden="true"></a><span class="co">#&gt; Error : Unable to process user input</span></span>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true"></a><span class="co"># Script completes with errors handled as they occurred</span></span></code></pre></div>
 </div>
