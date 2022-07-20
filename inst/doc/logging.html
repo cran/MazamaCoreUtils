@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
     </style>
 
 
+
 <style type="text/css">
   code {
     white-space: pre;
@@ -445,44 +446,45 @@ logger.trace(&quot;TRACE level message&quot;)</code></pre>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>}</span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a><span class="co">#&gt; Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a><span class="co">#&gt;   &#39;sum&#39; not meaningful for factors</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a><span class="co"># Successful completion</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a><span class="kw">logger.error</span>(<span class="st">&quot;NO ERRORS&quot;</span>)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;Successfully completed loggingExample&quot;</span>)</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">=============== THE END ===============</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a><span class="co"># Check the output</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a><span class="kw">str</span>(outputSums)</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a><span class="co">#&gt; List of 4</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a><span class="co">#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a><span class="co">#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a><span class="co">#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a><span class="co">#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;</span></span></code></pre></div>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a><span class="co"># Successful completion</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a><span class="kw">logger.error</span>(<span class="st">&quot;NO ERRORS&quot;</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;Successfully completed loggingExample&quot;</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a><span class="kw">logger.info</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">=============== THE END ===============</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a><span class="co"># Check the output</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a><span class="kw">str</span>(outputSums)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a><span class="co">#&gt; List of 4</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a><span class="co">#&gt;  $ Sepal.Length: chr &quot;Sum of Sepal.Length = 876.5&quot;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a><span class="co">#&gt;  $ Sepal.Width : chr &quot;Sum of Sepal.Width = 458.6&quot;</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a><span class="co">#&gt;  $ Petal.Length: chr &quot;Sum of Petal.Length = 563.7&quot;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a><span class="co">#&gt;  $ Petal.Width : chr &quot;Sum of Petal.Width = 179.9&quot;</span></span></code></pre></div>
 <p>Here is what is generated in the log files:</p>
 <div id="error.log" class="section level2">
 <h2>ERROR.log</h2>
-<pre><code>#&gt; ERROR [2021-11-11 10:45:29] NO ERRORS</code></pre>
+<pre><code>#&gt; ERROR [2022-07-20 11:45:05] NO ERRORS</code></pre>
 </div>
 <div id="info.log" class="section level2">
 <h2>INFO.log</h2>
-<pre><code>#&gt; INFO [2021-11-11 10:45:29] Begin loggingExample ...
-#&gt; WARN [2021-11-11 10:45:29] Oops: object &#39;flog.appender&#39; not found
-#&gt; ERROR [2021-11-11 10:45:29] NO ERRORS
-#&gt; INFO [2021-11-11 10:45:29] Successfully completed loggingExample
-#&gt; INFO [2021-11-11 10:45:29] 
+<pre><code>#&gt; INFO [2022-07-20 11:45:05] Begin loggingExample ...
+#&gt; WARN [2022-07-20 11:45:05] Oops: object &#39;flog.appender&#39; not found
+#&gt; ERROR [2022-07-20 11:45:05] NO ERRORS
+#&gt; INFO [2022-07-20 11:45:05] Successfully completed loggingExample
+#&gt; INFO [2022-07-20 11:45:05] 
 #&gt; =============== THE END ===============</code></pre>
 </div>
 <div id="trace.log" class="section level2">
 <h2>TRACE.log</h2>
-<pre><code>#&gt; INFO [2021-11-11 10:45:29] Begin loggingExample ...
-#&gt; TRACE [2021-11-11 10:45:29] Working on: Sepal.Length
-#&gt; TRACE [2021-11-11 10:45:29] Working on: Sepal.Width
-#&gt; TRACE [2021-11-11 10:45:29] Working on: Petal.Length
-#&gt; TRACE [2021-11-11 10:45:29] Working on: Petal.Width
-#&gt; TRACE [2021-11-11 10:45:29] Working on: Species
-#&gt; WARN [2021-11-11 10:45:29] Oops: object &#39;flog.appender&#39; not found
-#&gt; ERROR [2021-11-11 10:45:29] NO ERRORS
-#&gt; INFO [2021-11-11 10:45:29] Successfully completed loggingExample
-#&gt; INFO [2021-11-11 10:45:29] 
+<pre><code>#&gt; INFO [2022-07-20 11:45:05] Begin loggingExample ...
+#&gt; TRACE [2022-07-20 11:45:05] Working on: Sepal.Length
+#&gt; TRACE [2022-07-20 11:45:05] Working on: Sepal.Width
+#&gt; TRACE [2022-07-20 11:45:05] Working on: Petal.Length
+#&gt; TRACE [2022-07-20 11:45:05] Working on: Petal.Width
+#&gt; TRACE [2022-07-20 11:45:05] Working on: Species
+#&gt; WARN [2022-07-20 11:45:05] Oops: object &#39;flog.appender&#39; not found
+#&gt; ERROR [2022-07-20 11:45:05] NO ERRORS
+#&gt; INFO [2022-07-20 11:45:05] Successfully completed loggingExample
+#&gt; INFO [2022-07-20 11:45:05] 
 #&gt; =============== THE END ===============</code></pre>
 </div>
 </div>
