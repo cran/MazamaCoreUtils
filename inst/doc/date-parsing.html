@@ -245,9 +245,21 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <div id="environmental-time-series-data" class="section level1">
 <h1>Environmental Time Series Data</h1>
-<p>Dates, times and timezones can be frustrating, especially when working with environmental time series such as those collected by air and water quality sensors.</p>
-<p>Environmental time series data often have a strong diurnal signal and are typically plotted with a time axis displaying local time. However, when data are aggregated into larger collections, it is typical to store data with a universal time axis – UTC.</p>
-<p>Problems can arise when parsing and formatting dates and times because R defaults to the system timezone available with <code>Sys.timezone()</code>. Imagine an agency scientist based in Washington, DC, using their laptop to display recent air quality data from Los Angeles while at a conference in Tasmania. The data center processing the data might be in Boulder but the data processing machine might be set to use UTC. Potential timezones (available with <code>OlsonNames()</code>) relevant to this scenario include:</p>
+<p>Dates, times and timezones can be frustrating, especially when
+working with environmental time series such as those collected by air
+and water quality sensors.</p>
+<p>Environmental time series data often have a strong diurnal signal and
+are typically plotted with a time axis displaying local time. However,
+when data are aggregated into larger collections, it is typical to store
+data with a universal time axis – UTC.</p>
+<p>Problems can arise when parsing and formatting dates and times
+because R defaults to the system timezone available with
+<code>Sys.timezone()</code>. Imagine an agency scientist based in
+Washington, DC, using their laptop to display recent air quality data
+from Los Angeles while at a conference in Tasmania. The data center
+processing the data might be in Boulder but the data processing machine
+might be set to use UTC. Potential timezones (available with
+<code>OlsonNames()</code>) relevant to this scenario include:</p>
 <ul>
 <li><code>America/New_York</code></li>
 <li><code>America/Los_Angeles</code></li>
@@ -255,23 +267,38 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><code>America/Denver</code></li>
 <li><code>UTC</code></li>
 </ul>
-<p>Which timezone should be used to convert a request for data from “2019-08-08”&quot; to “2018-08-15”&quot; into <code>POSIXct</code> datetimes?</p>
-<p>To enforce specification of timezones and to help with the common user interface need to specify a range of dates or times, the <strong>MazamaCoreUtils</strong> package provides the following functions:</p>
+<p>Which timezone should be used to convert a request for data from
+“2019-08-08”” to “2018-08-15”” into <code>POSIXct</code> datetimes?</p>
+<p>To enforce specification of timezones and to help with the common
+user interface need to specify a range of dates or times, the
+<strong>MazamaCoreUtils</strong> package provides the following
+functions:</p>
 <ul>
-<li><code>dateRange()</code> – parses and returns <code>POSIXct</code> start and end dates representing full days in the specified timezone</li>
-<li><code>timeRange()</code> – parses and returns <code>POSixct</code> start and end times in the specified timezone</li>
-<li><code>parseDatetime()</code> – parses and returns a vector of <code>POSIXct</code> values in the specified timezone</li>
+<li><code>dateRange()</code> – parses and returns <code>POSIXct</code>
+start and end dates representing full days in the specified
+timezone</li>
+<li><code>timeRange()</code> – parses and returns <code>POSixct</code>
+start and end times in the specified timezone</li>
+<li><code>parseDatetime()</code> – parses and returns a vector of
+<code>POSIXct</code> values in the specified timezone</li>
 </ul>
-<p>The <code>parseDatetime()</code> function is intended as a timezone-requiring replacement for <code>lubridate::parse_date_time()</code>.</p>
+<p>The <code>parseDatetime()</code> function is intended as a
+timezone-requiring replacement for
+<code>lubridate::parse_date_time()</code>.</p>
 </div>
 <div id="linting-for-timezones" class="section level1">
 <h1>Linting for timezones</h1>
-<p>Enforcing the specification of timezones throughout a body of code is the most robust way to remove timezone-related errors from your software. To help with this thistype of code review, the package also includes functions for testing whether specific named arguments are used with certain function calls:</p>
+<p>Enforcing the specification of timezones throughout a body of code is
+the most robust way to remove timezone-related errors from your
+software. To help with this thistype of code review, the package also
+includes functions for testing whether specific named arguments are used
+with certain function calls:</p>
 <ul>
 <li><code>lintFunctionArgs_file()</code> – check a single file</li>
 <li><code>lintFunctionArgs_dir()</code> – check an entire directory</li>
 </ul>
-<p>To use these functions you must define a set of <code>function:argument</code> rules to be applied such as:</p>
+<p>To use these functions you must define a set of
+<code>function:argument</code> rules to be applied such as:</p>
 <pre><code>timezoneLintRules &lt;- list(
   &quot;parse_date_time&quot; = &quot;tz&quot;,
   &quot;with_tz&quot; = &quot;tzone&quot;,
@@ -280,11 +307,18 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 )</code></pre>
 <p>This is interpreted as:</p>
 <ul>
-<li>Every use of the <code>parse_date_time()</code> function must use the <code>tz</code> argument explicitly.</li>
-<li>Every use of the <code>with_tz()</code> function must use the <code>tzone</code> argument explicitly</li>
+<li>Every use of the <code>parse_date_time()</code> function must use
+the <code>tz</code> argument explicitly.</li>
+<li>Every use of the <code>with_tz()</code> function must use the
+<code>tzone</code> argument explicitly</li>
 <li>…</li>
 </ul>
-<p>While these functions could be used to test for explicit use in any <code>function:argument</code> pair, our concern here is primarily with specification of timezones. The packages includes a detailed list of <code>timezoneLintRules</code> to help with this. As an example, here is the result of linting the <code>dateRange.R</code> function in this package:</p>
+<p>While these functions could be used to test for explicit use in any
+<code>function:argument</code> pair, our concern here is primarily with
+specification of timezones. The packages includes a detailed list of
+<code>timezoneLintRules</code> to help with this. As an example, here is
+the result of linting the <code>dateRange.R</code> function in this
+package:</p>
 <pre><code>&gt; lintFunctionArgs_file(&quot;R/dateRange.R&quot;, timezoneLintRules)
 # A tibble: 7 x 6
   file        line_number column_number function_name   named_args includes_required
@@ -296,8 +330,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 5 dateRange.R         159            18 parse_date_time &lt;chr [2]&gt;  TRUE             
 6 dateRange.R         176            18 parse_date_time &lt;chr [2]&gt;  TRUE             
 7 dateRange.R         188            18 now             &lt;chr [1]&gt;  TRUE             </code></pre>
-<p>The result shows that the <code>dateRange.R</code> source code is consistent in always explicitly specifying a timezone.</p>
-<p>Hopefully, this attention to timezones will help your code avoid misunderstandings when it comes to date and time requests.</p>
+<p>The result shows that the <code>dateRange.R</code> source code is
+consistent in always explicitly specifying a timezone.</p>
+<p>Hopefully, this attention to timezones will help your code avoid
+misunderstandings when it comes to date and time requests.</p>
 </div>
 
 

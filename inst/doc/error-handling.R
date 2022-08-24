@@ -7,44 +7,53 @@ knitr::opts_chunk$set(
 ## ----stopOnError--------------------------------------------------------------
 library(MazamaCoreUtils)
 logger.setup()
-logger.setLevel(TRACE)
+logger.setLevel(TRACE) # force logs to be printed to the console
 
 # Arbitrarily deep in the stack we might have:
 myFunc <- function(x) {
-  a <- log(x)
+  return(log(x))
 }
 
-result <- try({
+# ----- Example 1:  good user input --------------------------------------------
+try({
   
   userInput <- 10
-  result <- try({
-    logger.trace("class(userInput) = %s", class(userInput))
-    myFunc(x=userInput)
-  }, silent=TRUE)
-  stopOnError(result)
+  logger.trace("class(userInput) = %s", class(userInput))
   
-}, silent = FALSE)
+  try({
+    myFunc(x = userInput)
+  }, silent = TRUE) %>%
+    stopOnError()
+  
+  logger.trace("Continue processing ...")
+  
+}, silent = TRUE)
 
-# Continue despite any errors
+# ----- Example 2:  bad user input ---------------------------------------------
+try({
   
-result <- try({
   userInput <- "10"
-  result <- try({
+  logger.trace("class(userInput) = %s", class(userInput))
+  
+  try({
+    myFunc(x = userInput)
+  }, silent = TRUE) %>%
+    stopOnError()
+  
+  logger.trace("Continue processing ...") # we don't get here
+  
+}, silent = TRUE)
+
+# ----- Example 3:  bad user input, custom error message -----------------------
+try({
+  
+  try({
     logger.trace("class(userInput) = %s", class(userInput))
-    myFunc(x=userInput)
-  }, silent=TRUE)
-  stopOnError(result)
-}, silent = FALSE)
-
-# Continue despite any errors
-
-result <- try({
-  result <- try({
-    logger.trace("class(userInput) = %s", class(userInput))
-    myFunc(x=userInput)
-  }, silent=TRUE)
-  stopOnError(result, "Unable to process user input")
-}, silent = FALSE)
-
-# Script completes with errors handled as they occurred
+    myFunc(x = userInput)
+  }, silent = TRUE) %>%
+    stopOnError("Unable to process user input")
+  
+  logger.trace("Continue processing ...") # we don't get here
+  
+}, silent = TRUE)
 

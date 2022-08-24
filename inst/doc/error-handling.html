@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -339,9 +340,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <div id="error-handling-in-java-and-python" class="section level1">
 <h1>Error Handling in Java and Python</h1>
-<p>Operational systems, by definition, need to work without human input. Systems are considered “operational” after they have been thoroughly tested and shown to work properly with a variety of input.</p>
-<p>However, no software is perfect and no real-world system operates with 100% availability or 100% consistent input. Things occasionally go wrong – perhaps intermittently. In a situation with occasional failures it is vitally important to have robust error handling to deal with both expected and unexpected results.</p>
-<p>Other languages used in operational settings have language statements to help with error handling. The code to handle errors looks very similar in java and python:</p>
+<p>Operational systems, by definition, need to work without human input.
+Systems are considered “operational” after they have been thoroughly
+tested and shown to work properly with a variety of input.</p>
+<p>However, no software is perfect and no real-world system operates
+with 100% availability or 100% consistent input. Things occasionally go
+wrong – perhaps intermittently. In a situation with occasional failures
+it is vitally important to have robust error handling to deal with both
+expected and unexpected results.</p>
+<p>Other languages used in operational settings have language statements
+to help with error handling. The code to handle errors looks very
+similar in java and python:</p>
 <p><strong>java</strong></p>
 <pre><code>try {
   myFunc(a)
@@ -364,7 +373,8 @@ finally:
 </div>
 <div id="error-handling-in-r" class="section level1">
 <h1>Error Handling in R</h1>
-<p>Not surprisingly, a functional language like R does things differently:</p>
+<p>Not surprisingly, a functional language like R does things
+differently:</p>
 <ul>
 <li>No language statements for error handling</li>
 <li><code>tryCatch()</code> is a function</li>
@@ -372,7 +382,8 @@ finally:
 <li>Need to define error handling function</li>
 <li>Scope issues</li>
 </ul>
-<p>Nevertheless, R’s error handling functions can be made to look similar to java and python:</p>
+<p>Nevertheless, R’s error handling functions can be made to look
+similar to java and python:</p>
 <pre><code>result &lt;- tryCatch({
   myFunc(a)
 }, warning = function(w) {
@@ -384,14 +395,20 @@ finally:
 }</code></pre>
 <p>For more details see:</p>
 <ul>
-<li><a href="https://working-with-data.mazamascience.com/2020/10/08/basic-error-handing-in-r-with-trycatch/">Basic Error Handling with tryCatch()</a></li>
-<li><a href="http://adv-r.had.co.nz/Exceptions-Debugging.html">Exceptions and debugging - Advanced R</a></li>
+<li><a href="https://working-with-data.mazamascience.com/2020/10/08/basic-error-handing-in-r-with-trycatch/">Basic
+Error Handling with tryCatch()</a></li>
+<li><a href="http://adv-r.had.co.nz/Exceptions-Debugging.html">Exceptions and
+debugging - Advanced R</a></li>
 </ul>
 </div>
 <div id="simpler-error-handling-in-r" class="section level1">
 <h1>Simpler Error Handling in R</h1>
-<p>In our experience, R’s error handling is too complicated for simple use and requires too much from folks who don’t consider themselves R-gurus.</p>
-<p>Instead, we recommend wrapping any block of code that needs error handling in a <code>try()</code> function and then testing the result to see if an error occurred.</p>
+<p>In our experience, R’s error handling is too complicated for simple
+use and requires too much from folks who don’t consider themselves
+R-gurus.</p>
+<p>Instead, we recommend wrapping any block of code that needs error
+handling in a <code>try()</code> function and then testing the result to
+see if an error occurred.</p>
 <ul>
 <li><code>try()</code> is a wrapper around <code>tryCatch()</code></li>
 <li><code>try()</code> ignores warnings</li>
@@ -400,9 +417,13 @@ finally:
 </ul>
 <p>For more details see:</p>
 <ul>
-<li><a href="https://working-with-data.mazamascience.com/2020/10/09/easier-error-handling-in-r-with-try/">Easier Error Handling with try()</a></li>
+<li><a href="https://working-with-data.mazamascience.com/2020/10/09/easier-error-handling-in-r-with-try/">Easier
+Error Handling with try()</a></li>
 </ul>
-<p>This strategy makes it easy to create error handling logic and easy to understand what it does. In the following pseudo-code please note that R considers everything between <code>{}</code> to be a single <em>expression</em>:</p>
+<p>This strategy makes it easy to create error handling logic and easy
+to understand what it does. In the following pseudo-code please note
+that R considers everything between <code>{}</code> to be a single
+<em>expression</em>:</p>
 <pre><code>result &lt;- try({
   # ...
   # lines of R code
@@ -416,75 +437,108 @@ err_msg &lt;- geterrmessage()
   # stop() if necessary with user friendly error strings
 }</code></pre>
 </div>
-<div id="regularized-usage-in-operational-code" class="section level1">
-<h1>Regularized Usage in Operational Code</h1>
-<p>The following utility function regularizes our handling of errors in operational code:</p>
-<div id="stoponerror" class="section level3">
-<h3><code>stopOnError()</code></h3>
-<p>This function tests the first argument for a class of <code>try-error</code> and, if true, performs the following actions:</p>
+<div id="stoponerror" class="section level1">
+<h1><code>stopOnError()</code></h1>
+<p>The <strong><code>stopOnError()</code></strong> utility function
+regularizes our handling of errors in operational code. This function
+tests the first argument for a class of <code>try-error</code> and, if
+true, performs the following actions:</p>
 <ol style="list-style-type: decimal">
-<li>creates <code>err_msg</code> from a user provided error message or, if NULL, <code>geterrmessage()</code></li>
-<li>logs this message with <code>logger.error(err_msg)</code></li>
-<li><em>throws</em> the potentially improved error message with <code>stop(err_msg)</code></li>
+<li>creates <code>err_msg</code> from a user provided error message or,
+if NULL, <code>geterrmessage()</code></li>
+<li>allows modification of error messages with arguments
+<code>prefix</code> and <code>maxLength</code></li>
+<li>logs this message with <code>logger.error(err_msg)</code> if logging
+has been enabled</li>
+<li>throws an updated error message with <code>stop(err_msg)</code></li>
 </ol>
-<p>Encouraging junior R programmers to add error handling to their code is now much easier. They can place any block of R code within a “try block” with the following minimal syntax:</p>
+<p>Encouraging junior R programmers to add error handling to their code
+is now much easier. They can place any block of R code within a “try
+block” with the following minimal syntax:</p>
 <pre><code>result &lt;- try({
   # ...
   # lines of R code
   # ...
 }, silent = FALSE)
 stopOnError(result)</code></pre>
-<p>Here is a working example demonstrating how a web service might test for user input that may not have been converted from character to numeric:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">library</span>(MazamaCoreUtils)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">logger.setup</span>()</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">logger.setLevel</span>(TRACE)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co"># Arbitrarily deep in the stack we might have:</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>myFunc &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>  a &lt;-<span class="st"> </span><span class="kw">log</span>(x)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>}</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>  </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>  userInput &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>  result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>    <span class="kw">logger.trace</span>(<span class="st">&quot;class(userInput) = %s&quot;</span>, <span class="kw">class</span>(userInput))</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>    <span class="kw">myFunc</span>(<span class="dt">x=</span>userInput)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>  <span class="kw">stopOnError</span>(result)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>  </span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a><span class="co">#&gt; TRACE [2022-07-20 11:45:05] class(userInput) = numeric</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a><span class="co"># Continue despite any errors</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>  </span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a>  userInput &lt;-<span class="st"> &quot;10&quot;</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a>  result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a>    <span class="kw">logger.trace</span>(<span class="st">&quot;class(userInput) = %s&quot;</span>, <span class="kw">class</span>(userInput))</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a>    <span class="kw">myFunc</span>(<span class="dt">x=</span>userInput)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a>  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a>  <span class="kw">stopOnError</span>(result)</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a>}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a><span class="co">#&gt; TRACE [2022-07-20 11:45:05] class(userInput) = character</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a><span class="co">#&gt; ERROR [2022-07-20 11:45:05] Error in log(x) : non-numeric argument to mathematical function</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true"></a><span class="co">#&gt; Error : Error in log(x) : non-numeric argument to mathematical function</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true"></a><span class="co"># Continue despite any errors</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true"></a>result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true"></a>  result &lt;-<span class="st"> </span><span class="kw">try</span>({</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true"></a>    <span class="kw">logger.trace</span>(<span class="st">&quot;class(userInput) = %s&quot;</span>, <span class="kw">class</span>(userInput))</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true"></a>    <span class="kw">myFunc</span>(<span class="dt">x=</span>userInput)</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true"></a>  }, <span class="dt">silent=</span><span class="ot">TRUE</span>)</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true"></a>  <span class="kw">stopOnError</span>(result, <span class="st">&quot;Unable to process user input&quot;</span>)</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true"></a>}, <span class="dt">silent =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true"></a><span class="co">#&gt; TRACE [2022-07-20 11:45:05] class(userInput) = character</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true"></a><span class="co">#&gt; ERROR [2022-07-20 11:45:05] Unable to process user input</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true"></a><span class="co">#&gt; Error : Unable to process user input</span></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true"></a></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true"></a><span class="co"># Script completes with errors handled as they occurred</span></span></code></pre></div>
+<p>Using the <code>%&gt;%</code> pipe operator, we can write this even
+more concisely without creating the interim <code>result</code>
+object:</p>
+<pre><code>try({
+  # ...
+  # lines of R code
+  # ...
+}, silent = FALSE) %&gt;%
+  stopOnError()</code></pre>
 </div>
+<div id="working-example" class="section level1">
+<h1>Working example</h1>
+<p>Here is a working example demonstrating how a web service might test
+for user input that may not have been converted from character to
+numeric. All errors are appropriately logged. <em>(The outer
+<code>try()</code> blocks in the examples below allow the code to be
+evaluated for this vignette.)</em>.</p>
+<p>In the third example, we see how low level error messages that may be
+hard to understand in the context of a complex, multi-level piece of
+code can be converted into a message that makes sense in the context of
+a web service application.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MazamaCoreUtils)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">logger.setup</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">logger.setLevel</span>(TRACE) <span class="co"># force logs to be printed to the console</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Arbitrarily deep in the stack we might have:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>myFunc <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">log</span>(x))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ----- Example 1:  good user input --------------------------------------------</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  userInput <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logger.trace</span>(<span class="st">&quot;class(userInput) = %s&quot;</span>, <span class="fu">class</span>(userInput))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">try</span>({</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">myFunc</span>(<span class="at">x =</span> userInput)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">silent =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopOnError</span>()</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logger.trace</span>(<span class="st">&quot;Continue processing ...&quot;</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>}, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRACE [2022-08-24 15:36:51] class(userInput) = numeric</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRACE [2022-08-24 15:36:51] Continue processing ...</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># ----- Example 2:  bad user input ---------------------------------------------</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  userInput <span class="ot">&lt;-</span> <span class="st">&quot;10&quot;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logger.trace</span>(<span class="st">&quot;class(userInput) = %s&quot;</span>, <span class="fu">class</span>(userInput))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">try</span>({</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">myFunc</span>(<span class="at">x =</span> userInput)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">silent =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopOnError</span>()</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logger.trace</span>(<span class="st">&quot;Continue processing ...&quot;</span>) <span class="co"># we don&#39;t get here</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>}, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRACE [2022-08-24 15:36:51] class(userInput) = character</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ERROR [2022-08-24 15:36:51] Error in log(x) : non-numeric argument to mathematical function</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co"># ----- Example 3:  bad user input, custom error message -----------------------</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">try</span>({</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">logger.trace</span>(<span class="st">&quot;class(userInput) = %s&quot;</span>, <span class="fu">class</span>(userInput))</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">myFunc</span>(<span class="at">x =</span> userInput)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">silent =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopOnError</span>(<span class="st">&quot;Unable to process user input&quot;</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logger.trace</span>(<span class="st">&quot;Continue processing ...&quot;</span>) <span class="co"># we don&#39;t get here</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>}, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRACE [2022-08-24 15:36:51] class(userInput) = character</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ERROR [2022-08-24 15:36:51] Unable to process user input</span></span></code></pre></div>
 </div>
 
 
