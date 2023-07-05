@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaCoreUtils
-Version: 0.4.14
+Version: 0.4.15
 Title: Utility Functions for Production R Code
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -26,10 +26,10 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-06-05 17:24:16 UTC; jonathancallahan
+Packaged: 2023-07-04 18:59:33 UTC; jonathancallahan
 Author: Jonathan Callahan [aut, cre],
   Eli Grosman [ctb],
   Spencer Pease [ctb],
   Thomas Bergamaschi [ctb]
 Repository: CRAN
-Date/Publication: 2023-06-05 22:10:03 UTC
+Date/Publication: 2023-07-06 00:14:26 UTC

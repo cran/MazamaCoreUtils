@@ -1,11 +1,15 @@
+# MazamaCoreUtils 0.4.15
+
+* `parseDatetime() now supports data formats with timezone: "2018-10-16 12:00:00+00:00".
+
 # MazamaCoreUtils 0.4.14
 
-* Added `algorithm` argument to `createLocationID()` to select between `"digest"`
-and '"geohash"'.
+* Added `algorithm` argument to `createLocationID()` to select between "digest"
+and "geohash".
 
-The `"geohash"` algorithm is preferred but the `"digest"`
-algorithm is retained (and the default) because several existing databases
-use the `"digest"` algorithm as a unique identifier.
+The "geohash" algorithm is preferred but the "digest" algorithm is retained 
+(and the default) because several existing databases use the "digest"
+algorithm as a unique identifier.
 
 # MazamaCoreUtils 0.4.13
 

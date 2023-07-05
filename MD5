@@ -1,6 +1,6 @@
-eec2bafcd40c3e4ab31be8dc5fbe030c *DESCRIPTION
+ab8ee6d7ae1c436c6059dc9460ba711c *DESCRIPTION
 7116631a2cc75cf83093a214ebbdaf7c *NAMESPACE
-804f66a05f2e2f1a3ad2b9649145374c *NEWS.md
+d0f146971b47d006240938d60f98fe87 *NEWS.md
 3d63f73ecdf66bb936dc80e4fdad6ee6 *R/MazamaCoreUtils.R
 f530bf03d5543426d08ff48092362887 *R/cacheManagement.R
 0e1470d2365b1bc50e322d798e7bbffb *R/dateRange.R
@@ -13,7 +13,7 @@ f530bf03d5543426d08ff48092362887 *R/cacheManagement.R
 075bbf0613cb23fa092ed3b3f56b9aed *R/html_getTables.R
 ba6a549bcca7b49e492f9b3cdab86a62 *R/initializeLogging.R
 37afb98046d49320461533e5d85ad46e *R/loadDataFile.R
-9e6a671a4b9416103985c285432ad518 *R/parseDatetime.R
+6d90c6762241b7aaf75541c0b289e3c9 *R/parseDatetime.R
 262a9ec25d1f8a6e04dcc93440c90c06 *R/pylogger.R
 13f8d20a6e95713eeb0e38688b918280 *R/setIfNull.R
 852e789b50186f20a776d391a351db96 *R/stopIfNull.R
@@ -33,10 +33,10 @@ ad14d030f1ef2df2b37aa7628eb368f3 *inst/doc/date-parsing.Rmd
 90c490434fd75c1969058c753bdad89a *inst/doc/date-parsing.html
 08710e6ca3a01ff0959cac4925fc8b5a *inst/doc/error-handling.R
 fedb6bdc725da07d242936261dffb271 *inst/doc/error-handling.Rmd
-8273d47fb49a9232b8101e13ec3ee5fb *inst/doc/error-handling.html
+8612691c903d4f088e72f7df1c3daac2 *inst/doc/error-handling.html
 c7dfdef47b7422d2151ce2c979c54f9b *inst/doc/logging.R
 8ec9cb55be2e5582d2ef88187a6f1c69 *inst/doc/logging.Rmd
-3a014d8ce72d51555d7ed83aec9a6d4f *inst/doc/logging.html
+0951513009b61c8393f45010aef68641 *inst/doc/logging.html
 f6739e44e91a0803d3207e6e91f8735d *man/APIKeys.Rd
 59b2d4e7658cbbb33eef5581bb77b27e *man/MazamaCoreUtils.Rd
 492e24f78ce9ef8fffd2cf962fff21f5 *man/createLocationID.Rd
@@ -62,7 +62,7 @@ d513860b16057485b220749bdfbab321 *man/logger.trace.Rd
 b30cc7aa9b83f6be263d751e0563469e *man/logger.warn.Rd
 c72c39d0807e7395bfe72978a0f52e39 *man/manageCache.Rd
 cdd395fbf56767195a2e5518a4bca450 *man/packageCheck.Rd
-fc1f56ee2d5a3de62a3035318c2bbce9 *man/parseDatetime.Rd
+de520e8c045fff20582369007372f39a *man/parseDatetime.Rd
 1f7896a1b866ff9ae89ba35be7c7b6f1 *man/pipe.Rd
 713a1c1ea2a6c1b3fb6ed214c33f8f67 *man/setAPIKey.Rd
 2ba80de41c868b3159863010e654fa5b *man/setIfNull.Rd
@@ -84,7 +84,7 @@ f293b03152afeff528a1603672037de0 *tests/testthat/test-cacheManagement.R
 b06842ba51955bfbdb77370ccab646ea *tests/testthat/test-errorHandling.R
 3959d7f0748e4235e186614a9c411f61 *tests/testthat/test-initializeLogging.R
 0d652e0e207b7ab9262aff61b3918d99 *tests/testthat/test-locationUtils.R
-5e6db1a6ee8339e612b23feef28f72e9 *tests/testthat/test-parseDatetime.R
+1ce9243a714a725e28ce1fd0a3cea6d9 *tests/testthat/test-parseDatetime.R
 26423fb800f05906a31f0ebef89bc267 *tests/testthat/test-pylogger.R
 4518fabb86342fcc8eb64fe52f8f1bec *tests/testthat/test-setIfNull.R
 5ee8f592af4eed4cf1c2a47bedef6bad *tests/testthat/test-stopIfNull.R
