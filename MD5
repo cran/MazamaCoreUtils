@@ -1,9 +1,9 @@
-60f836527ec0943f7417d86fed285978 *DESCRIPTION
+430589438f0615401fcc69b8c268acd6 *DESCRIPTION
 734f4f071c3b83c5fe1d03a12d7bdaeb *NAMESPACE
-8e35eea8286238f25c154c274a6dbbb8 *NEWS.md
+eec687da5073ff7e302fe7f2dd345e2d *NEWS.md
 b2532b5f6a7d356f5c58e31028642bfd *R/MazamaCoreUtils.R
 f530bf03d5543426d08ff48092362887 *R/cacheManagement.R
-3bfb6d4f2f2b3bd1486a3af1ed70bda3 *R/createLocationID.R
+25598e6e2f648332fa78f13b0858d485 *R/createLocationID.R
 233bbd721e88c122f4ab0e338de31e0f *R/createLocationMask.R
 0e1470d2365b1bc50e322d798e7bbffb *R/dateRange.R
 1db347daf00e3a9f1b78389d85c9d989 *R/dateSequence.R
@@ -16,7 +16,7 @@ f530bf03d5543426d08ff48092362887 *R/cacheManagement.R
 d3166b87cd26c8a2a9ebe79e29a11386 *R/initializeLogging.R
 37afb98046d49320461533e5d85ad46e *R/loadDataFile.R
 6d90c6762241b7aaf75541c0b289e3c9 *R/parseDatetime.R
-13f8d20a6e95713eeb0e38688b918280 *R/setIfNull.R
+d1e19c67022b507993daa4a4639d2f18 *R/setIfNull.R
 852e789b50186f20a776d391a351db96 *R/stopIfNull.R
 cf9332d91b519453135b7d98cc4015f1 *R/timeRange.R
 c54d7d426e8c417d2f3fca776ed34d40 *R/timeStamp.R
@@ -35,13 +35,13 @@ e22e52311eb02a4bc8fe4c766c81a869 *inst/doc/date-parsing.Rmd
 2b75a9d885a296eade2bf047eaa41c2b *inst/doc/date-parsing.html
 08710e6ca3a01ff0959cac4925fc8b5a *inst/doc/error-handling.R
 fedb6bdc725da07d242936261dffb271 *inst/doc/error-handling.Rmd
-0f237dd93dc7972edc23673c480b1e28 *inst/doc/error-handling.html
+dcbfa3d028a2a15a3da876402d7cf5fb *inst/doc/error-handling.html
 c7dfdef47b7422d2151ce2c979c54f9b *inst/doc/logging.R
 8ec9cb55be2e5582d2ef88187a6f1c69 *inst/doc/logging.Rmd
-e63a521d9ebc633e9b688655e3797bed *inst/doc/logging.html
+220b3a280a426e4e46317f88624c38b1 *inst/doc/logging.html
 f6739e44e91a0803d3207e6e91f8735d *man/APIKeys.Rd
 918ce9140c522c934904e29a2338c53d *man/MazamaCoreUtils.Rd
-c606f738d905b44d8acc66e16f6ade37 *man/createLocationID.Rd
+7033cb6d92cc42ba1cfe353d8a9d8340 *man/createLocationID.Rd
 a7c211dc001e6a9d07175b7c0340e590 *man/createLocationMask.Rd
 efeb55a75204f1e50382fcea72390ce6 *man/dateRange.Rd
 47489cace63a11ab33696ddec4dbd279 *man/dateSequence.Rd
@@ -69,7 +69,7 @@ cdd395fbf56767195a2e5518a4bca450 *man/packageCheck.Rd
 de520e8c045fff20582369007372f39a *man/parseDatetime.Rd
 1f7896a1b866ff9ae89ba35be7c7b6f1 *man/pipe.Rd
 713a1c1ea2a6c1b3fb6ed214c33f8f67 *man/setAPIKey.Rd
-2ba80de41c868b3159863010e654fa5b *man/setIfNull.Rd
+1f98163e117960183688b8d3984838c8 *man/setIfNull.Rd
 10436fce289e6edc67162e75f0edfd64 *man/showAPIKeys.Rd
 6ebcbe29f3198711083a550ecc71d242 *man/stopIfNull.Rd
 5debc9e1ed274586ea3b5d5f3d514034 *man/stopOnError.Rd
@@ -82,7 +82,7 @@ e9e899a958961ea78ff1e9445ed93f75 *man/validateLonLat.Rd
 4deaac021c00a9da6fa245dfca9e1594 *tests/testthat.R
 45a21833214e91cc8de36339a6783a3b *tests/testthat/test-APIKeys.R
 f293b03152afeff528a1603672037de0 *tests/testthat/test-cacheManagement.R
-2d1b1a1804c11e1222229647f8fe0142 *tests/testthat/test-createLocationID.R
+9e29cefe0d80b7b674c1067023509ff7 *tests/testthat/test-createLocationID.R
 776bbb51eec7dbffb676990a13065a33 *tests/testthat/test-dateRange.R
 796d0f2903a31ef1439621c9a0d6494d *tests/testthat/test-dateSequence.R
 b06842ba51955bfbdb77370ccab646ea *tests/testthat/test-errorHandling.R
@@ -90,7 +90,7 @@ c2f07a3179a5bf8a487a4d6dd3a122cf *tests/testthat/test-initializeLogging.R
 4d24fb680b87d956152dd3be05e02960 *tests/testthat/test-locationUtils.R
 1ce9243a714a725e28ce1fd0a3cea6d9 *tests/testthat/test-parseDatetime.R
 26423fb800f05906a31f0ebef89bc267 *tests/testthat/test-pylogger.R
-4518fabb86342fcc8eb64fe52f8f1bec *tests/testthat/test-setIfNull.R
+05fe125fe5ef76410f87c0bad884cb15 *tests/testthat/test-setIfNull.R
 5ee8f592af4eed4cf1c2a47bedef6bad *tests/testthat/test-stopIfNull.R
 a39d66e93214eb66a553f712c80d283b *tests/testthat/test-timeRange.R
 ea0b8c76b5aac665d80c9aabdb8c2c7a *tests/testthat/test-timeStamp.R
