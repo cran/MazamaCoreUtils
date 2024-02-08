@@ -1,6 +1,6 @@
-430589438f0615401fcc69b8c268acd6 *DESCRIPTION
+1c8702d0803f9ca9b74daae25c8ec08f *DESCRIPTION
 734f4f071c3b83c5fe1d03a12d7bdaeb *NAMESPACE
-eec687da5073ff7e302fe7f2dd345e2d *NEWS.md
+5baca37426c8c80630359ae370f63b1e *NEWS.md
 b2532b5f6a7d356f5c58e31028642bfd *R/MazamaCoreUtils.R
 f530bf03d5543426d08ff48092362887 *R/cacheManagement.R
 25598e6e2f648332fa78f13b0858d485 *R/createLocationID.R
@@ -13,7 +13,7 @@ f530bf03d5543426d08ff48092362887 *R/cacheManagement.R
 23b685e3e1e2bc2ff63f72afdca967bc *R/functionArgument_linting.R
 717661d8c82896f37b118a74e76d4ec5 *R/html_getLinks.R
 075bbf0613cb23fa092ed3b3f56b9aed *R/html_getTables.R
-d3166b87cd26c8a2a9ebe79e29a11386 *R/initializeLogging.R
+4db2aaad86b4d6bd6e6c00797f08b330 *R/initializeLogging.R
 37afb98046d49320461533e5d85ad46e *R/loadDataFile.R
 6d90c6762241b7aaf75541c0b289e3c9 *R/parseDatetime.R
 d1e19c67022b507993daa4a4639d2f18 *R/setIfNull.R
@@ -35,10 +35,10 @@ e22e52311eb02a4bc8fe4c766c81a869 *inst/doc/date-parsing.Rmd
 2b75a9d885a296eade2bf047eaa41c2b *inst/doc/date-parsing.html
 08710e6ca3a01ff0959cac4925fc8b5a *inst/doc/error-handling.R
 fedb6bdc725da07d242936261dffb271 *inst/doc/error-handling.Rmd
-dcbfa3d028a2a15a3da876402d7cf5fb *inst/doc/error-handling.html
+744b9e326add73611a415dd84282d72e *inst/doc/error-handling.html
 c7dfdef47b7422d2151ce2c979c54f9b *inst/doc/logging.R
 8ec9cb55be2e5582d2ef88187a6f1c69 *inst/doc/logging.Rmd
-220b3a280a426e4e46317f88624c38b1 *inst/doc/logging.html
+e38528b3dbbf7c7d0db717475aec2fb0 *inst/doc/logging.html
 f6739e44e91a0803d3207e6e91f8735d *man/APIKeys.Rd
 918ce9140c522c934904e29a2338c53d *man/MazamaCoreUtils.Rd
 7033cb6d92cc42ba1cfe353d8a9d8340 *man/createLocationID.Rd
