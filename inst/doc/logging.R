@@ -43,12 +43,12 @@ logger.info("\n=============== THE END ===============\n")
 # Check the output
 str(outputSums)
 
-## ----errorLog, echo = FALSE---------------------------------------------------
+## ----errorLog, echo = TRUE----------------------------------------------------
 cat(paste(readLines(file.path(tmpDir,"ERROR.log")),collapse='\n'))
 
-## ----infoLog, echo = FALSE----------------------------------------------------
+## ----infoLog, echo = TRUE-----------------------------------------------------
 cat(paste(readLines(file.path(tmpDir,"INFO.log")),collapse='\n'))
 
-## ----traceLog, echo = FALSE---------------------------------------------------
+## ----traceLog, echo = TRUE----------------------------------------------------
 cat(paste(readLines(file.path(tmpDir,"TRACE.log")),collapse='\n'))
 

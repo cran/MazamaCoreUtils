@@ -45,3 +45,6 @@ cacheSize = (sum(infoDF$size) / 1e6) # in MB
 print(list.files(CACHE_DIR))
 sprintf("Cache size = %s MB", cacheSize)
 
+## ----maxFileAge---------------------------------------------------------------
+manageCache(CACHE_DIR, maxFileAge = 3/24)
+
