@@ -27,7 +27,7 @@ for ( column in names(iris) ) {
   result <- try({
     outputSums[[column]] <- 
       paste0("Sum of ", column, " = ", sum(iris[[column]]))
-  }, silent = FALSE)
+  }, silent = TRUE)
   
   if ( "try-error" %in% class(result) ) {
     logger.warn("Oops: %s", geterrmessage())

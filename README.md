@@ -4,7 +4,7 @@
 
 A dedicated Slack channel has been created for announcements, support and to 
 help build a community of practice around this open source package. You may 
-request an invitation to join from <jonathan.callahan@gmail.com>.
+request an invitation to join from <jonathan.s.callahan@gmail.com>.
 
 # MazamaCoreUtils
 
@@ -52,5 +52,5 @@ following institutions:
 * USFS [AirFire Research Team](https://www.airfire.org)
 
 Questions regarding further development of the package should be directed to 
-<jonathan.callahan@gmail.com>.
+<jonathan.s.callahan@gmail.com>.
 
