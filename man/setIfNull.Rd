@@ -4,79 +4,50 @@
 \alias{setIfNull}
 \title{Set a variable to a default value if it is NULL}
 \usage{
-setIfNull(target, default)
+setIfNull(target, default, enforcedType = NULL)
 }
 \arguments{
-\item{target}{Object to test if \code{NULL} (must be length 1).}
+\item{target}{Object to test for \code{NULL}.}
 
-\item{default}{Object to return if \code{target} is \code{NULL} (must be
-length one).}
+\item{default}{Object to return when \code{target} is \code{NULL}.}
+
+\item{enforcedType}{Optional character string specifying the suffix of an
+\verb{as.*()} coercion function to apply to the returned value. For example,
+\code{"double"} uses \code{as.double()}, \code{"character"} uses \code{as.character()},
+and \code{"Date"} uses \code{as.Date()}.
+
+If \code{NULL} (the default), no coercion is performed.}
 }
 \value{
-If \code{target} is not \code{NULL}, then \code{target} is coerced to
-  the type of \code{default}. Otherwise, \code{default} is returned.
+The value of \code{target} if it is not \code{NULL}; otherwise \code{default}.
+
+If \code{enforcedType} is specified, the returned value is coerced using the
+corresponding \verb{as.*()} function.
 }
 \description{
-This function attempts to set a default value for a given target object. If
-the object is \code{NULL}, a default value is returned.
-
-When the target object is not \code{NULL}, this function will try and coerce
-it to match the type of the default (given by \code{\link[base]{typeof}}).
-This is useful in situations where we are looking to parse the input as well,
-such at looking at elements of an API call string and wanting to set the
-character numbers as actual numeric types.
-
-Not all coercions are possible, however, and if the function encounters one
-of these (ex: \code{setIfNull("foo", 5)}) the function will fail.
+Returns \code{default} when \code{target} is \code{NULL}; otherwise returns \code{target}
+unchanged.
 }
-\section{Possible Coercions}{
+\details{
+This is useful for assigning default values to optional arguments while
+preserving any user-supplied value exactly as provided.
 
-This function checks the type of the target and default as given by
-\code{\link[base]{typeof}}. Specifically, it accounts for the types:
-
-\itemize{
-  \item \code{character}
-  \item \code{integer}
-  \item \code{double}
-  \item \code{complex}
-  \item \code{logical}
-  \item \code{list}
+Optionally, \code{enforcedType} may be used to coerce the returned value to a
+specific type. This coercion is applied after the \code{NULL} check and affects
+both \code{target} and \code{default}.
 }
-
-\emph{R} tries to intelligently coerce types, but some coercions from one
-type to another won't always be possible. Everything can be turned into a
-character, but only some character objects can become numeric ("7" can,
-while "hello" cannot). Some other coercions work, but you will lose
-information in the process. For example, the \emph{double} 5.7 can be coerced
-into an \emph{integer}, but the decimal portion will be dropped with no
-rounding. It is important to realize that while it is possible to move
-between most types, the results are not always meaningful.
-}
-
 \examples{
-library(MazamaCoreUtils)
-
 setIfNull(NULL, "foo")
 setIfNull(10, 0)
 setIfNull("15", 0)
 
+# User-supplied values are returned unchanged
+setIfNull("15", 0)
+setIfNull("mean", 0)
+setIfNull(mean, 0)
 
-# This function can be useful for adding elements to a list
-testList <- list("a" = 1, "b" = "baz", "c" = "4")
+# Optional type enforcement
+setIfNull("15", 0, enforcedType = "double")
+setIfNull(NULL, "15", enforcedType = "integer")
 
-testList$a <- setIfNull(testList$a, 0)
-testList$b <- setIfNull(testList$c, 0)
-testList$d <- setIfNull(testList$d, 6)
-
-
-# Be careful about unintended results
-setIfNull("T", FALSE) # This returns `TRUE`
-setIfNull(12.8, 5L)   # This returns the integer 12
-
-
-\dontrun{
-# Not all coercions are possible
-setIfNull("bar", 5)
-setIfNull("t", FALSE)
-}
 }

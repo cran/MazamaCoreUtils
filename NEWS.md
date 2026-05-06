@@ -1,3 +1,17 @@
+# MazamaCoreUtils 0.6.2
+
+* Restore but _deprecate_ the `algorithm` argument from `createLocationID()`.
+
+# MazamaCoreUtils 0.6.1
+
+* Fixed `setIfNull()` so that it doesn't ever convert type if the user provides 
+a value.
+* Removed the `algorithm` argument from `createLocationID()`. Now always using
+`geohash`.
+* Updated documentation throughout.
+* Added all **lubridate** functions to `timezoneLintRules`.
+* Addressed several minor edge cases.
+
 # MazamaCoreUtils 0.6.0
 
 * Refactor to use **logger** rather than **futile.logger**.

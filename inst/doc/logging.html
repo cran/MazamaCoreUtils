@@ -506,35 +506,35 @@ statements and their output.</p>
 <div id="error.log" class="section level2">
 <h2>ERROR.log</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">readLines</span>(<span class="fu">file.path</span>(tmpDir,<span class="st">&quot;ERROR.log&quot;</span>)),<span class="at">collapse=</span><span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; ERROR [2026-01-01 01:32:51 UTC] NO ERRORS</span></span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; ERROR [2026-05-05 21:24:14 UTC] NO ERRORS</span></span></code></pre></div>
 </div>
 <div id="info.log" class="section level2">
 <h2>INFO.log</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">readLines</span>(<span class="fu">file.path</span>(tmpDir,<span class="st">&quot;INFO.log&quot;</span>)),<span class="at">collapse=</span><span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>))</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-01-01 01:32:51 UTC] Begin loggingExample ...</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; WARN  [2026-01-01 01:32:51 UTC] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-05-05 21:24:14 UTC] Begin loggingExample ...</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; WARN  [2026-05-05 21:24:14 UTC] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;   &#39;sum&#39; not meaningful for factors</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; ERROR [2026-01-01 01:32:51 UTC] NO ERRORS</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-01-01 01:32:51 UTC] Successfully completed loggingExample</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-01-01 01:32:51 UTC] </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; ERROR [2026-05-05 21:24:14 UTC] NO ERRORS</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-05-05 21:24:14 UTC] Successfully completed loggingExample</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-05-05 21:24:14 UTC] </span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; =============== THE </span><span class="re">END</span><span class="co"> ===============</span></span></code></pre></div>
 </div>
 <div id="trace.log" class="section level2">
 <h2>TRACE.log</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="fu">readLines</span>(<span class="fu">file.path</span>(tmpDir,<span class="st">&quot;TRACE.log&quot;</span>)),<span class="at">collapse=</span><span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>))</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-01-01 01:32:51 UTC] Begin loggingExample ...</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-01-01 01:32:51 UTC] Working on: Sepal.Length</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-01-01 01:32:51 UTC] Working on: Sepal.Width</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-01-01 01:32:51 UTC] Working on: Petal.Length</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-01-01 01:32:51 UTC] Working on: Petal.Width</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-01-01 01:32:51 UTC] Working on: Species</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; WARN  [2026-01-01 01:32:51 UTC] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-05-05 21:24:14 UTC] Begin loggingExample ...</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-05-05 21:24:14 UTC] Working on: Sepal.Length</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-05-05 21:24:14 UTC] Working on: Sepal.Width</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-05-05 21:24:14 UTC] Working on: Petal.Length</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-05-05 21:24:14 UTC] Working on: Petal.Width</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; TRACE [2026-05-05 21:24:14 UTC] Working on: Species</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; WARN  [2026-05-05 21:24:14 UTC] Oops: Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,  : </span></span>
 <span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;   &#39;sum&#39; not meaningful for factors</span></span>
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; ERROR [2026-01-01 01:32:51 UTC] NO ERRORS</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-01-01 01:32:51 UTC] Successfully completed loggingExample</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-01-01 01:32:51 UTC] </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; ERROR [2026-05-05 21:24:14 UTC] NO ERRORS</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-05-05 21:24:14 UTC] Successfully completed loggingExample</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; INFO  [2026-05-05 21:24:14 UTC] </span></span>
 <span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; =============== THE </span><span class="re">END</span><span class="co"> ===============</span></span></code></pre></div>
 </div>
 </div>
