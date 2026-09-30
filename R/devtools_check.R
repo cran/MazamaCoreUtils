@@ -44,6 +44,11 @@
 #' @seealso
 #' [devtools::check()]
 #'
+#' @section Usage:
+#' Use `check_fast()` for a quick check while developing and `check_slow()`
+#' before a release. These functions run [devtools::check()] on the package, so
+#' they have no runnable examples.
+#'
 #' @name packageCheck
 #' @aliases check_slow check
 NULL

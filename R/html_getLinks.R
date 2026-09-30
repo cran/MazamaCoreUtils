@@ -8,13 +8,22 @@
 #' index pages, including web-accessible directories that list downloadable
 #' files.
 #'
+#' Links without an `href` value, Apache directory-listing sort links such as
+#' `?C=N;O=D`, and "Parent Directory" links are removed.
+#'
+#' If `relative = TRUE` (the default), `href` values are returned as found in the
+#' page, except that the leading `//` is removed from protocol-relative links
+#' (`//host/path` becomes `host/path`). If `relative = FALSE`, every link is
+#' resolved against `url`, so protocol-relative links take the scheme of `url`
+#' (`//host/path` becomes `https://host/path` for an `https` page).
+#'
 #' Wrapper functions [html_getLinkNames()] and [html_getLinkUrls()] return the
 #' corresponding columns as character vectors.
 #'
 #' @param url URL or local file path of an HTML page.
 #' @param relative Logical specifying whether to return relative URLs. If
 #'   `FALSE`, relative URLs are converted to absolute URLs using `url` as the
-#'   base.
+#'   base. Must be a single `TRUE` or `FALSE`; any other value is an error.
 #'
 #' @return
 #' A tibble with `linkName` and `linkUrl` columns.
@@ -52,8 +61,8 @@ html_getLinks <- function(
 
   MazamaCoreUtils::stopIfNull(url)
 
-  if ( !is.logical(relative) )
-    relative <- TRUE
+  if ( !is.logical(relative) || length(relative) != 1 || is.na(relative) )
+    stop("'relative' must be a logical value of length one")
 
   # ----- Extract the links ----------------------------------------------------
 
@@ -70,7 +79,7 @@ html_getLinks <- function(
       xml2::xml_attr("href")
 
   }, silent = TRUE) %>%
-  stopOnError()
+  MazamaCoreUtils::stopOnError()
 
   df <- dplyr::tibble(linkName = urlText, linkUrl = urlLinks)
 
@@ -86,23 +95,12 @@ html_getLinks <- function(
     dplyr::filter(stringr::str_detect(.data$linkUrl, "^\\?C=.;O=.*", negate = TRUE)) %>%
 
     # Remove "Parent Directory"
-    dplyr::filter(stringr::str_detect(.data$linkName, "Parent Directory", negate = TRUE)) %>%
-
-    # Format URLs beginning with //
-    dplyr::mutate(linkUrl = stringr::str_replace(.data$linkUrl, stringr::regex("^//"), ""))
+    dplyr::filter(stringr::str_detect(.data$linkName, "Parent Directory", negate = TRUE))
 
 
-  # ----- Expand relative URLs -------------------------------------------------
+  # ----- Format URLs ----------------------------------------------------------
 
-  if ( !relative ) {
-
-    df <-
-      df %>%
-      dplyr::mutate(
-        linkUrl = xml2::url_absolute(.data$linkUrl, base = url)
-      )
-
-  }
+  df$linkUrl <- .formatLinkUrls(df$linkUrl, base = url, relative = relative)
 
   # ----- Return ---------------------------------------------------------------
 
@@ -127,7 +125,7 @@ html_getLinkNames <- function(
   # ----- Extract the link text ------------------------------------------------
 
   linkNames <-
-    html_getLinks(url) %>%
+    MazamaCoreUtils::html_getLinks(url) %>%
     dplyr::pull("linkName")
 
   # ----- Return ---------------------------------------------------------------
@@ -154,11 +152,30 @@ html_getLinkUrls <- function(
   # ----- Extract the link text ------------------------------------------------
 
   linkUrls <-
-    html_getLinks(url, relative) %>%
+    MazamaCoreUtils::html_getLinks(url, relative) %>%
     dplyr::pull("linkUrl")
 
   # ----- Return ---------------------------------------------------------------
 
   return(linkUrls)
+
+}
+
+# ===== INTERNAL FUNCTIONS =====================================================
+
+# Format link URLs for html_getLinks().
+#
+# * relative = TRUE:  protocol-relative URLs ("//host/path") lose their leading
+#                     "//" and all other URLs are returned unchanged.
+# * relative = FALSE: URLs are resolved against 'base'. This must happen *before*
+#                     any "//" is removed so that protocol-relative URLs pick up
+#                     the scheme of 'base' (e.g. "//host/path" -> "https://host/path").
+.formatLinkUrls <- function(linkUrl, base, relative = TRUE) {
+
+  if ( relative ) {
+    return(stringr::str_replace(linkUrl, stringr::regex("^//"), ""))
+  }
+
+  return(xml2::url_absolute(linkUrl, base = base))
 
 }

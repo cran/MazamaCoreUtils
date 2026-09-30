@@ -11,6 +11,13 @@
 #' source is tried first. If loading from the first source fails, the other
 #' source is used as a fallback.
 #'
+#' The `.rda` file must contain exactly one object. A file containing several
+#' objects generates an error.
+#'
+#' Only load data from sources you trust. Loading an `.rda` file restores
+#' arbitrary R objects, which can include functions and other code, so `dataUrl`
+#' (and `dataDir`) should point to locations you control.
+#'
 #' @param filename Name of the `.rda` file to load.
 #' @param dataUrl Remote URL directory containing data files.
 #' @param dataDir Local directory containing data files.
@@ -87,7 +94,7 @@ loadDataFile <- function(
         try({
           loadedData <- .loadFromUrl(filename, dataUrl)
         }, silent = TRUE) %>%
-          stopOnError("data file could not be loaded from dataDir or dataUrl")
+          MazamaCoreUtils::stopOnError("data file could not be loaded from dataDir or dataUrl")
       }
     }
 
@@ -110,7 +117,7 @@ loadDataFile <- function(
         try({
           loadedData <- .loadFromDir(filename, dataDir)
         }, silent = TRUE) %>%
-          stopOnError("data file could not be loaded from dataDir or dataUrl")
+          MazamaCoreUtils::stopOnError("data file could not be loaded from dataDir or dataUrl")
       }
     }
 
@@ -144,6 +151,7 @@ loadDataFile <- function(
   }
 
   # No error
+  .stopIfNotSingleObject(objectName, filepath)
   loadedData <- get(objectName)
   return(loadedData)
 
@@ -168,7 +176,25 @@ loadDataFile <- function(
   }
 
   # No error
+  .stopIfNotSingleObject(objectName, filepath)
   loadedData <- get(objectName)
   return(loadedData)
+
+}
+
+# Stop with a clear message if load() created more than one object.
+.stopIfNotSingleObject <- function(objectName, filepath) {
+
+  if ( length(objectName) != 1 ) {
+    stop(
+      sprintf(
+        "data file must contain exactly one object but contains %d: %s",
+        length(objectName), filepath
+      ),
+      call. = FALSE
+    )
+  }
+
+  invisible(NULL)
 
 }

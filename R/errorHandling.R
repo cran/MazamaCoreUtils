@@ -66,8 +66,10 @@ stopOnError <- function(
 
   if ( "try-error" %in% class(result) ) {
 
-    # Use passed in message or cleaned up version from geterrmessage()
-    err_msg <- ifelse(err_msg == "", geterrmessage(), err_msg)
+    # Use passed in message or the message stored in the try-error itself.
+    # NOTE:  geterrmessage() returns the *last* error in the session, which may
+    # NOTE:  not be the error that produced 'result'.
+    err_msg <- ifelse(err_msg == "", as.character(result)[1], err_msg)
 
     err_msg <-
       err_msg %>%
@@ -81,8 +83,8 @@ stopOnError <- function(
     if ( stringr::str_length(err_msg) > maxLength )
       err_msg <- paste(stringr::str_sub(err_msg, end = truncatedLength), "...")
 
-    if ( logger.isInitialized() )
-      logger.error(err_msg)
+    if ( MazamaCoreUtils::logger.isInitialized() )
+      MazamaCoreUtils::logger.error(err_msg)
 
     stop(err_msg, call. = call.)
 

@@ -30,7 +30,7 @@ for ( column in names(iris) ) {
   }, silent = TRUE)
   
   if ( "try-error" %in% class(result) ) {
-    logger.warn("Oops: %s", geterrmessage())
+    logger.warn("Oops: %s", as.character(result))
   }
   
 }

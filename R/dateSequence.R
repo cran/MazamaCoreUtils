@@ -84,13 +84,12 @@ dateSequence <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  stopIfNull(startdate)
-  stopIfNull(enddate)
-  stopIfNull(timezone)
-  stopIfNull(ceilingEnd)
+  MazamaCoreUtils::stopIfNull(startdate)
+  MazamaCoreUtils::stopIfNull(enddate)
+  MazamaCoreUtils::stopIfNull(timezone)
+  MazamaCoreUtils::stopIfNull(ceilingEnd)
 
-  if ( !timezone %in% base::OlsonNames() )
-    stop(sprintf("'timezone = %s' is not found in OlsonNames()", timezone))
+  .validateTimezone(timezone)
 
   # ----- Create sequence ------------------------------------------------------
 
@@ -98,11 +97,11 @@ dateSequence <- function(
   # NOTE:  the middle of the day. Otherwise strftime() below will repeat the
   # NOTE:  date on which we switch from daylight savings to standard time.
   start <-
-    parseDatetime(startdate, timezone = timezone) %>%
+    MazamaCoreUtils::parseDatetime(startdate, timezone = timezone) %>%
     lubridate::floor_date(unit = "day") + lubridate::dhours(12)
 
   end <-
-    parseDatetime(enddate, timezone = timezone) %>%
+    MazamaCoreUtils::parseDatetime(enddate, timezone = timezone) %>%
     lubridate::floor_date(unit = "day") + lubridate::dhours(12)
 
   if ( ceilingEnd )

@@ -9,13 +9,15 @@
 #'
 #' \itemize{
 #'   \item Python-style logging
-#'   \item simple error messaging
-#'   \item cache management
+#'   \item simple error messaging and `NULL` handling
+#'   \item cache management and data loading
 #'   \item API key handling
-#'   \item date parsing and formatting
+#'   \item date parsing and formatting with explicit timezones
 #'   \item longitude/latitude validation
 #'   \item unique location ID creation
+#'   \item HTML link and table extraction
 #'   \item source code linting
+#'   \item `devtools::check()` wrappers
 #' }
 #'
 #' @keywords internal
@@ -55,17 +57,48 @@ NULL
 #'
 #' Print all currently set API keys.
 #'
+#' By default, key values are masked so that they are not exposed in console
+#' output or logs: only the first four characters of keys longer than eight
+#' characters are shown. Use `mask = FALSE` to print complete keys, or
+#' [getAPIKey()] to retrieve them programmatically.
+#'
+#' @param mask Logical specifying whether to mask key values.
+#'
 #' @return
 #' No return value. Called for side effects.
 #'
 #' @seealso
 #' [getAPIKey()], [setAPIKey()]
 #'
+#' @examples
+#' setAPIKey("exampleProvider", "abcd1234efgh5678")
+#'
+#' # Keys are masked by default
+#' showAPIKeys()
+#' showAPIKeys(mask = FALSE)
+#'
+#' # Remove the example key
+#' setAPIKey("exampleProvider", NULL)
+#'
 #' @keywords environment
 #' @export
 #' @importFrom utils str
-showAPIKeys <- function() {
-  utils::str(MazamaCoreUtilsEnv$APIKeys)
+showAPIKeys <- function(mask = TRUE) {
+
+  keys <- MazamaCoreUtilsEnv$APIKeys
+
+  if ( isTRUE(mask) ) {
+    keys <- lapply(keys, function(key) {
+      if ( is.character(key) && length(key) == 1 && nchar(key) > 8 ) {
+        paste0(substr(key, 1, 4), "****")
+      } else {
+        "****"
+      }
+    })
+  }
+
+  utils::str(keys)
+
 }
 
 #' Get API key
@@ -81,6 +114,15 @@ showAPIKeys <- function() {
 #'
 #' @seealso
 #' [APIKeys], [setAPIKey()], [showAPIKeys()]
+#'
+#' @examples
+#' setAPIKey("exampleProvider", "abcd1234efgh5678")
+#'
+#' getAPIKey("exampleProvider")
+#' getAPIKey()
+#'
+#' # Remove the example key
+#' setAPIKey("exampleProvider", NULL)
 #'
 #' @keywords environment
 #' @export
@@ -107,6 +149,16 @@ getAPIKey <- function(provider = NULL) {
 #'
 #' @seealso
 #' [getAPIKey()], [showAPIKeys()]
+#'
+#' @examples
+#' # Setting a key invisibly returns the previous value (NULL at first)
+#' setAPIKey("exampleProvider", "abcd1234efgh5678")
+#' old <- setAPIKey("exampleProvider", "newkey5678")
+#' old
+#'
+#' # Setting a key to NULL removes it
+#' setAPIKey("exampleProvider", NULL)
+#' getAPIKey("exampleProvider")
 #'
 #' @keywords environment
 #' @export

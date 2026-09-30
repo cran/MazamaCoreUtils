@@ -59,7 +59,7 @@ html_getTables <- function(
     )
 
   }, silent = TRUE) %>%
-  stopOnError()
+  MazamaCoreUtils::stopOnError()
 
   # ----- Return ---------------------------------------------------------------
 
@@ -69,7 +69,8 @@ html_getTables <- function(
 
 #' @rdname html_getTables
 #'
-#' @param index Index identifying which table to return.
+#' @param index Index identifying which table to return. Values less than 1
+#'   generate a warning and are replaced with 1.
 #'
 #' @return
 #' A single data frame containing the requested HTML table.
@@ -86,20 +87,26 @@ html_getTable <- function(
   MazamaCoreUtils::stopIfNull(url)
 
   index <- as.integer(index)
-  if ( index < 1 )
-    index <- 1
+
+  if ( length(index) != 1 || is.na(index) )
+    stop("'index' must be a single integer")
+
+  if ( index < 1 ) {
+    warning("'index' must be >= 1; using 'index = 1'")
+    index <- 1L
+  }
 
   # ----- Extract the table ----------------------------------------------------
 
   try({
 
     # Get a list of tables in this document
-    tables <- html_getTables(url, header = header)
+    tables <- MazamaCoreUtils::html_getTables(url, header = header)
 
     returnTable <- tables[[index]]
 
   }, silent = TRUE) %>%
-  stopOnError()
+  MazamaCoreUtils::stopOnError()
 
   # ----- Return ---------------------------------------------------------------
 

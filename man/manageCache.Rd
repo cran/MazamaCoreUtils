@@ -8,7 +8,7 @@ manageCache(
   cacheDir = NULL,
   extensions = c("html", "json", "pdf", "png"),
   maxCacheSize = 100,
-  sortBy = "atime",
+  sortBy = c("atime", "ctime", "mtime"),
   maxFileAge = NULL
 )
 }
@@ -17,7 +17,8 @@ manageCache(
 
 \item{extensions}{Vector of file extensions eligible for removal.}
 
-\item{maxCacheSize}{Maximum cache size in megabytes.}
+\item{maxCacheSize}{Maximum cache size in megabytes. Must be a single
+non-negative number.}
 
 \item{sortBy}{Timestamp used to order files for size-based removal. One of
 \code{"atime"}, \code{"ctime"}, or \code{"mtime"}.}
@@ -27,7 +28,8 @@ older than this value are removed regardless of cache size. Fractional days
 are allowed.}
 }
 \value{
-Invisibly returns the number of files removed.
+Invisibly returns the number of files actually removed. If any file cannot be
+removed, a warning is generated and that file is not counted.
 }
 \description{
 Remove old or excess files from a cache directory.

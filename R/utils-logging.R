@@ -84,7 +84,7 @@ appender.null <- function() {
 }
 
 # Quick test if logging has been initialized (MazamaCoreUtils view of the world)
-.stopIfNotInitilized <- function() {
+.stopIfNotInitialized <- function() {
   if (!isTRUE(getOption("MazamaCoreUtils.logger.initialized", FALSE))) {
     stop(
       "You must initialize with 'logger.setup()' before issuing logger statements.",
@@ -131,7 +131,7 @@ appender.null <- function() {
 
   # Timestamp in UTC with timezone
   ts <- format(
-    as.POSIXct(Sys.time(), tz = "UTC"),
+    lubridate::now(tzone = "UTC"),
     "%Y-%m-%d %H:%M:%S %Z"
   )
 
@@ -243,7 +243,7 @@ logger.setup <- function(
     # IMPORTANT: appender_console is a function; do NOT call it.
     logger::log_appender(logger::appender_console, namespace = ns, index = 1L)
   } else {
-    if (file.exists(fatalLog)) file.remove(fatalLog)
+    if (file.exists(fatalLog)) .removeFiles(fatalLog)
     # appender_tee() is a factory (needs file), so DO call it.
     logger::log_appender(logger::appender_tee(fatalLog), namespace = ns, index = 1L)
   }
@@ -265,7 +265,7 @@ logger.setup <- function(
       # Prefer built-in void appender; consistent with {logger}.
       logger::log_appender(logger::appender_void, namespace = ns, index = index)
     } else {
-      if (file.exists(path)) file.remove(path)
+      if (file.exists(path)) .removeFiles(path)
       logger::log_appender(logger::appender_file(path), namespace = ns, index = index)
     }
 
@@ -324,6 +324,11 @@ logger.isInitialized <- function() {
 #' By default, only `FATAL` messages are displayed in the console. This
 #' function allows users to display additional log messages interactively.
 #'
+#' Only the console threshold is changed. Messages written to log files by
+#' [logger.setup()] or [initializeLogging()] are controlled by each file's own
+#' fixed level (for example, `INFO.log` always receives `INFO` and higher
+#' messages) and are not affected.
+#'
 #' Available log levels are:
 #'
 #' \preformatted{
@@ -359,8 +364,8 @@ logger.isInitialized <- function() {
 #' @seealso
 #' [logger.setup()]
 logger.setLevel <- function(level) {
-  if (!logger.isInitialized()) {
-    logger.setup()
+  if (!MazamaCoreUtils::logger.isInitialized()) {
+    MazamaCoreUtils::logger.setup()
   }
 
   lvl <- .logger_map_level(level)
@@ -389,10 +394,14 @@ logger.setLevel <- function(level) {
 #' @seealso
 #' [logger.setup()]
 #'
+#' @examples
+#' logger.setup(traceLog = file.path(tempdir(), "TRACE.log"))
+#' logger.trace("Processed %d of %d records", 5L, 10L)
+#'
 #' @export
 #' @importFrom logger log_trace
 logger.trace <- function(msg, ...) {
-  .stopIfNotInitilized()
+  .stopIfNotInitialized()
   logger::log_trace(msg, ..., namespace = .MAZAMA_LOG_NAMESPACE)
 }
 
@@ -412,11 +421,15 @@ logger.trace <- function(msg, ...) {
 #' @seealso
 #' [logger.setup()]
 #'
+#' @examples
+#' logger.setup(debugLog = file.path(tempdir(), "DEBUG.log"))
+#' logger.debug("Processed %d of %d records", 5L, 10L)
+#'
 #' @export
 #' @importFrom logger log_debug
 #'
 logger.debug <- function(msg, ...) {
-  .stopIfNotInitilized()
+  .stopIfNotInitialized()
   logger::log_debug(msg, ..., namespace = .MAZAMA_LOG_NAMESPACE)
 }
 
@@ -436,11 +449,15 @@ logger.debug <- function(msg, ...) {
 #' @seealso
 #' [logger.setup()]
 #'
+#' @examples
+#' logger.setup(infoLog = file.path(tempdir(), "INFO.log"))
+#' logger.info("Processed %d of %d records", 5L, 10L)
+#'
 #' @export
 #' @importFrom logger log_info
 #'
 logger.info <- function(msg, ...) {
-  .stopIfNotInitilized()
+  .stopIfNotInitialized()
   logger::log_info(msg, ..., namespace = .MAZAMA_LOG_NAMESPACE)
 }
 
@@ -460,11 +477,15 @@ logger.info <- function(msg, ...) {
 #' @seealso
 #' [logger.setup()]
 #'
+#' @examples
+#' logger.setup(warnLog = file.path(tempdir(), "WARN.log"))
+#' logger.warn("Processed %d of %d records", 5L, 10L)
+#'
 #' @export
 #' @importFrom logger log_warn
 #'
 logger.warn <- function(msg, ...) {
-  .stopIfNotInitilized()
+  .stopIfNotInitialized()
   logger::log_warn(msg, ..., namespace = .MAZAMA_LOG_NAMESPACE)
 }
 
@@ -484,11 +505,15 @@ logger.warn <- function(msg, ...) {
 #' @seealso
 #' [logger.setup()]
 #'
+#' @examples
+#' logger.setup(errorLog = file.path(tempdir(), "ERROR.log"))
+#' logger.error("Processed %d of %d records", 5L, 10L)
+#'
 #' @export
 #' @importFrom logger log_error
 #'
 logger.error <- function(msg, ...) {
-  .stopIfNotInitilized()
+  .stopIfNotInitialized()
   logger::log_error(msg, ..., namespace = .MAZAMA_LOG_NAMESPACE)
 }
 
@@ -508,11 +533,15 @@ logger.error <- function(msg, ...) {
 #' @seealso
 #' [logger.setup()]
 #'
+#' @examples
+#' logger.setup(fatalLog = file.path(tempdir(), "FATAL.log"))
+#' logger.fatal("Processed %d of %d records", 5L, 10L)
+#'
 #' @export
 #' @importFrom logger log_fatal
 #'
 logger.fatal <- function(msg, ...) {
-  .stopIfNotInitilized()
+  .stopIfNotInitialized()
   logger::log_fatal(msg, ..., namespace = .MAZAMA_LOG_NAMESPACE)
 }
 
@@ -544,6 +573,17 @@ logger.fatal <- function(msg, ...) {
 #' @docType data
 #' @name logLevels
 #' @aliases FATAL ERROR WARN INFO DEBUG TRACE
+#'
+#' @examples
+#' # Level constants are named integers
+#' c(FATAL, ERROR, WARN, INFO, DEBUG, TRACE)
+#' names(INFO)
+#'
+#' # Show INFO and higher messages in the console
+#' logger.setup()
+#' logger.setLevel(INFO)
+#' logger.info("Console logging is now enabled for INFO")
+#'
 #' @export
 #'
 FATAL <- 1L

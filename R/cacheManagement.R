@@ -19,7 +19,8 @@
 #'
 #' @param cacheDir Location of cache directory.
 #' @param extensions Vector of file extensions eligible for removal.
-#' @param maxCacheSize Maximum cache size in megabytes.
+#' @param maxCacheSize Maximum cache size in megabytes. Must be a single
+#'   non-negative number.
 #' @param sortBy Timestamp used to order files for size-based removal. One of
 #'   `"atime"`, `"ctime"`, or `"mtime"`.
 #' @param maxFileAge Maximum file age in days. Files with modification times
@@ -27,7 +28,8 @@
 #'   are allowed.
 #'
 #' @return
-#' Invisibly returns the number of files removed.
+#' Invisibly returns the number of files actually removed. If any file cannot be
+#' removed, a warning is generated and that file is not counted.
 #'
 #' @details
 #' Timestamp meanings are:
@@ -71,16 +73,26 @@ manageCache <- function(
   cacheDir = NULL,
   extensions = c('html','json','pdf','png'),
   maxCacheSize = 100,
-  sortBy = 'atime',
+  sortBy = c('atime', 'ctime', 'mtime'),
   maxFileAge = NULL
 ) {
 
   # Validate parameters --------------------------------------------------------
 
-  stopIfNull(cacheDir)
-  stopIfNull(extensions)
-  stopIfNull(maxCacheSize)
-  stopIfNull(sortBy)
+  MazamaCoreUtils::stopIfNull(cacheDir)
+  MazamaCoreUtils::stopIfNull(extensions)
+  MazamaCoreUtils::stopIfNull(maxCacheSize)
+
+  # NOTE:  Validate everything before any files are removed.
+  sortBy <- match.arg(sortBy)
+
+  if ( !is.numeric(maxCacheSize) || length(maxCacheSize) != 1 ||
+       is.na(maxCacheSize) || maxCacheSize < 0 )
+    stop("'maxCacheSize' must be a single non-negative number")
+
+  if ( !is.null(maxFileAge) &&
+       ( !is.numeric(maxFileAge) || length(maxFileAge) != 1 || is.na(maxFileAge) ) )
+    stop("'maxFileAge' must be a single number, if specified")
 
   # Get file info --------------------------------------------------------------
 
@@ -109,24 +121,22 @@ manageCache <- function(
   } else {
     expiration <- lubridate::now(tzone = "UTC") - lubridate::ddays(maxFileAge)
     removalDF <- dplyr::filter(cacheDF, cacheDF$mtime < expiration)
-    ageRemovalCount <- nrow(removalDF)
-    if ( ageRemovalCount > 0 ) {
-      file.remove(removalDF$file)
-      # Remove deleted files before size-based cleanup.
+    ageRemovalCount <- 0
+    if ( nrow(removalDF) > 0 ) {
+      removedFiles <- .removeFiles(removalDF$file)
+      ageRemovalCount <- length(removedFiles)
+      # Remove deleted files before size-based cleanup. Files that could not
+      # be removed still occupy space so they stay in the size accounting.
       cacheDF <-
         cacheDF %>%
-        dplyr::filter(!.data$file %in% removalDF$file)
+        dplyr::filter(!.data$file %in% removedFiles)
     }
   }
 
   # Remove excess files --------------------------------------------------------
 
   # Use dplyr to order by value specified by sortBy
-  if ( !sortBy %in% c("atime", "ctime", "mtime") ) {
-    stop("invalid value for parameter 'sortBy'")
-  } else {
-    sizeByDF <- dplyr::arrange(cacheDF, dplyr::desc(.data[[sortBy]]))
-  }
+  sizeByDF <- dplyr::arrange(cacheDF, dplyr::desc(.data[[sortBy]]))
 
   # Compute a running total
   sizeByDF$cumulativeSize <- cumsum(sizeByDF$size)
@@ -134,9 +144,9 @@ manageCache <- function(
   # Remove all files associated with cumulativeSize > maxCacheSize
   removalMask <- sizeByDF$cumulativeSize > maxCacheSize
   removalFiles <- sizeByDF$file[removalMask]
-  sizeRemovalCount <- length(removalFiles)
-  if ( sizeRemovalCount > 0 ) {
-    file.remove(removalFiles)
+  sizeRemovalCount <- 0
+  if ( length(removalFiles) > 0 ) {
+    sizeRemovalCount <- length(.removeFiles(removalFiles))
   }
 
   # Return ---------------------------------------------------------------------

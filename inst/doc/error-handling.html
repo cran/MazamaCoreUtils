@@ -419,7 +419,11 @@ see if an error occurred.</p>
 <li><code>try()</code> is a wrapper around <code>tryCatch()</code></li>
 <li><code>try()</code> ignores warnings</li>
 <li><code>try()</code> returns a “try-error” object on error</li>
-<li><code>geterrmessage()</code> returns latest error msg</li>
+<li><code>as.character()</code> of a “try-error” object returns its
+error message</li>
+<li><code>geterrmessage()</code> returns the <em>latest</em> error
+message in the session, which is not necessarily the error that produced
+a particular <code>try-error</code> object</li>
 </ul>
 <p>For more details see:</p>
 <ul>
@@ -437,7 +441,7 @@ that R considers everything between <code>{}</code> to be a single
 }, silent = TRUE)
 
 if ( &quot;try-error&quot; %in% class(result) ) {
-err_msg &lt;- geterrmessage()
+  err_msg &lt;- as.character(result) # the message stored in the try-error
   # logging of error message
   # detection and handling of particular error strings
   # stop() if necessary with user friendly error strings
@@ -451,9 +455,11 @@ tests the first argument for a class of <code>try-error</code> and, if
 true, performs the following actions:</p>
 <ol style="list-style-type: decimal">
 <li>creates <code>err_msg</code> from a user provided error message or,
-if NULL, <code>geterrmessage()</code></li>
+if none is provided, from the message stored in the
+<code>try-error</code> object itself</li>
 <li>allows modification of error messages with arguments
-<code>prefix</code> and <code>maxLength</code></li>
+<code>prefix</code>, <code>maxLength</code> and
+<code>truncatedLength</code></li>
 <li>logs this message with <code>logger.error(err_msg)</code> if logging
 has been enabled</li>
 <li>throws an updated error message with <code>stop(err_msg)</code></li>

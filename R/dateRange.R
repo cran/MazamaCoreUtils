@@ -118,19 +118,18 @@ dateRange <- function(
 
   # Validate parameters --------------------------------------------------------
 
-  stopIfNull(timezone)
-  stopIfNull(unit)
-  ceilingStart <- setIfNull(ceilingStart, FALSE, "logical")
-  ceilingEnd <- setIfNull(ceilingEnd, FALSE, "logical")
+  MazamaCoreUtils::stopIfNull(timezone)
+  MazamaCoreUtils::stopIfNull(unit)
+  ceilingStart <- MazamaCoreUtils::setIfNull(ceilingStart, FALSE, "logical")
+  ceilingEnd <- MazamaCoreUtils::setIfNull(ceilingEnd, FALSE, "logical")
 
-  if ( !timezone %in% base::OlsonNames() )
-    stop(sprintf("'timezone = %s' is not found in OlsonNames()", timezone))
+  .validateTimezone(timezone)
 
   if ( !is.numeric(days) || length(days) > 1 || days < 1 )
     stop("'days' must be a single positive number")
 
   if ( !is.null(startdate) && length(startdate) != 1 )
-    stop("'startdat'e must be of length one, if specified")
+    stop("'startdate' must be of length one, if specified")
 
   if ( !is.null(enddate) && length(enddate) != 1 )
     stop("'enddate' must be of length one, if specified")
@@ -160,7 +159,7 @@ dateRange <- function(
     # ** Both found: use startdate, enddate ------------------------------------
 
     # Handle parsing and ordering
-    timeInput <- timeRange(startdate, enddate, timezone = timezone)
+    timeInput <- MazamaCoreUtils::timeRange(startdate, enddate, timezone = timezone)
 
     if ( ceilingStart ) {
       starttime <-
@@ -195,12 +194,12 @@ dateRange <- function(
     if ( ceilingStart ) {
       starttime <-
         startdate %>%
-        parseDatetime(timezone = timezone) %>%
+        MazamaCoreUtils::parseDatetime(timezone = timezone) %>%
         lubridate::ceiling_date(unit = "day")
     } else {
       starttime <-
         startdate %>%
-        parseDatetime(timezone = timezone) %>%
+        MazamaCoreUtils::parseDatetime(timezone = timezone) %>%
         lubridate::floor_date(unit = "day")
     }
 
@@ -216,7 +215,7 @@ dateRange <- function(
 
     endtime <-
       enddate %>%
-      parseDatetime(timezone = timezone) %>%
+      MazamaCoreUtils::parseDatetime(timezone = timezone) %>%
       lubridate::floor_date(unit = "day")
 
     if ( ceilingEnd ) {

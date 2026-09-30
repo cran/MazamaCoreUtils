@@ -1,3 +1,51 @@
+# MazamaCoreUtils 0.6.3
+
+* `timeRange()` now actually applies its defaults for `unit`, `ceilingStart`
+and `ceilingEnd` when they are `NULL`.
+* `manageCache()` now validates `sortBy`, `maxCacheSize` and `maxFileAge`
+before removing any files. `sortBy` is now validated with `match.arg()`, so
+unique abbreviations such as `"m"` are accepted.
+* **Fixed `createLocationMask()`:** with `removeZeroZero = TRUE` (the default) it
+treated every location where `longitude + latitude == 0`, e.g. (30, -30), as
+invalid. Now only `(0, 0)` is removed.
+* **Fixed `html_getLinks()`:** with `relative = FALSE`, protocol-relative links
+(`//host/path`) are now resolved against the page URL and get its scheme,
+rather than being treated as relative paths.
+* `logger.setup()` now warns when an existing log file cannot be removed
+before logging starts.
+* Log line timestamps now use `lubridate::now(tzone = "UTC")`; output format is
+unchanged.
+* `loadDataFile()` documentation now advises loading data only from trusted
+sources.
+* `html_getLinks()` and `html_getLinkUrls()` now stop with an error when
+`relative` is not a single `TRUE` or `FALSE`; previously any other value was
+silently treated as `TRUE`.
+* Added examples for the API key functions, `initializeLogging()`, the
+`logger.*()` functions, `logLevels` and the `check_*()` wrappers.
+* Updated the README and vignettes (current `stopOnError()` behavior, `WARN.log`,
+current linting output).
+* Added tests for `html_getLinks()`, `html_getLinkNames()` and
+`html_getLinkUrls()`.
+* `manageCache()` now checks whether each file was actually removed. Files that
+cannot be removed generate a warning and are not included in the returned count.
+* `stopOnError()` now builds its message from the supplied `try-error` rather
+than `geterrmessage()`, which could return an unrelated, more recent error.
+* Fixed a typo in a `dateRange()` error message.
+* `loadDataFile()` now stops with a clear message when the `.rda` file contains
+more than one object; previously it failed with an obscure error from `get()`.
+* Timezone validation is now shared by `parseDatetime()`, `timeRange()`,
+`dateRange()`, `dateSequence()` and `timeStamp()`, so a `timezone` that is not a
+single character string produces a clear error everywhere.
+* Added tests for `loadDataFile()`, `html_getTables()`, `html_getTable()`,
+`lintFunctionArgs_file()`, `lintFunctionArgs_dir()` and timezone validation.
+* `showAPIKeys()` now masks key values by default. Use `mask = FALSE` to print
+complete keys.
+* `html_getTable()` now warns when `index < 1` and stops if `index` is not a
+single integer.
+* Replaced deprecated `.data$` tidyselect usage in `lintFunctionArgs_file()`.
+* Documented `loadDataFile()` (file must hold a single object), `parseDatetime()`
+(error when nothing parses) and `logger.setLevel()` (console only).
+
 # MazamaCoreUtils 0.6.2
 
 * Restore but _deprecate_ the `algorithm` argument from `createLocationID()`.
