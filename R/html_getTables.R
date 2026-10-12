@@ -52,9 +52,8 @@ html_getTables <- function(
     # Make this list human-readable
     tables_clean <- rvest::html_table(
       tableNodes,
-      header = header,        # use first row as header
+      header = header,
       trim = TRUE,            # remove leading/trailing white space
-      fill = TRUE,            # NA fill rows with fewer than max columns
       dec = "."
     )
 

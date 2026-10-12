@@ -1,3 +1,15 @@
+# MazamaCoreUtils 0.6.4
+
+* `timeStamp()` gains `style = "human"`, which is like `"clock"` but uses a
+space instead of the `"T"` separator, e.g. `"2019-01-08 12:30:15"`. Hour
+timestamps always include minutes (`"2019-01-08 12:00"`).
+* `html_getTables()` no longer passes the deprecated `fill` argument to
+`rvest::html_table()`, which now always fills ragged rows with `NA`. The
+**rvest** dependency is now `rvest (>= 1.0.0)`.
+* Added tests for ragged HTML tables and for `setIfNull()` with integer input.
+* Documentation updates: clearer `timeStamp()` description, consistent
+"timezone" wording and a refreshed package website.
+
 # MazamaCoreUtils 0.6.3
 
 * `timeRange()` now actually applies its defaults for `unit`, `ceilingStart`
